@@ -1,0 +1,20 @@
+{
+  "name": "Cap'Icam",
+  "short_name": "Cap'Icam",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a2b49",
+  "theme_color": "#1a2b49",
+  "icons": [
+    {
+      "src": "assets/logo_zoomed.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "assets/logo_zoomed.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
