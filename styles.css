@@ -21,6 +21,7 @@ body {
     color: var(--primary-blue);
     background-color: #f0f8ff;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 h1,
@@ -50,6 +51,8 @@ h3,
     display: flex;
     align-items: center;
     gap: 1rem;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-logo {
