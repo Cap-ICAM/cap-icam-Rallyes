@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cap'Icam</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-title" content="Cap'Icam">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Favicon & Icons for iOS -->
+    <link rel="icon" href="assets/logo_zoomed.jpg">
+    <link rel="apple-touch-icon" href="assets/logo_zoomed.jpg">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="assets/logo.jpg" alt="Logo Cap'Icam" class="nav-logo">
+            <span class="nav-title">CAP'ICAM</span>
+        </div>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Accueil</a></li>
+            <li><a href="#rallyes">Les Rallyes</a></li>
+            <li><a href="#team">L'Équipage</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="assets/logo.jpg" alt="Logo Cap'Icam Giant" class="hero-logo">
+            <h1>Hissez les Voiles !</h1>
+            <p class="tagline">La Campagne BDA qui t'emmène au large.</p>
+            <a href="#rallyes" class="btn-primary">Commander un Rallye</a>
+        </div>
+        <div class="wave-container">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Concept Section -->
+    <section class="concept-section">
+        <div class="container">
+            <h2>L'Esprit Cap'Icam</h2>
+            <p>Embarque avec nous pour 3 jours intenses. Notre équipe de marins est prête à relever tous les défis
+                pour
+                te convaincre.</p>
+        </div>
+    </section>
+
+    <!-- Rallyes Section -->
+    <section id="rallyes" class="rallyes-section">
+        <div class="container">
+            <h2>Nos Rallyes</h2>
+            <p class="section-subtitle">Tu commandes, on débarque.</p>
+
+            <div class="rallye-grid">
+                <!-- Rallye 1: P'tit Dej (Keep) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-coffee"></i></div>
+                    <h3>P'tit Dej du Capitaine</h3>
+                    <p>Crêpe chaude, café ou jus d'orange. Le réveil idéal avant les cours.</p>
+                    <button class="btn-rallye" onclick="openModal('P\'tit Dej du Capitaine')">Commander</button>
+                </div>
+
+                <!-- Rallye 2: Goûter (Keep) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-hamburger"></i></div>
+                    <h3>Goûter du Mousse</h3>
+                    <p>Une petite faim ? On t'apporte un en-cas directement !</p>
+                    <button class="btn-rallye" onclick="openModal('Goûter du Mousse')">Commander</button>
+                </div>
+
+                <!-- Rallye 3: Réveil (New) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Réveil du Matelot</h3>
+                    <p>Debout là-dedans ! On vient te sortir du lit pour ne pas rater le départ.</p>
+                    <button class="btn-rallye" onclick="openModal('Réveil du Matelot')">Commander</button>
+                </div>
+
+                <!-- Rallye 4: Devoirs (New) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-compass"></i></div>
+                    <h3>L'École de Navigation</h3>
+                    <p>Perdu dans tes calculs ? Nos officiers t'aident à retrouver le cap.</p>
+                    <button class="btn-rallye" onclick="openModal('L\'École de Navigation')">Commander</button>
+                </div>
+
+                <!-- Rallye 5: Voiture (New) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-ship"></i></div>
+                    <h3>Navette du Port</h3>
+                    <p>Besoin d'une escorte ? Monte à bord de notre canot pour un trajet express.</p>
+                    <button class="btn-rallye" onclick="openModal('Navette du Port')">Commander</button>
+                </div>
+
+                <!-- Rallye 6: Coiffeur (New) -->
+                <div class="rallye-card">
+                    <div class="card-icon"><i class="fas fa-cut"></i></div>
+                    <h3>La Coupe du Corsaire</h3>
+                    <p>Besoin d'un rafraîchissement capillaire ? Notre barbier débarque avec sa tondeuse !</p>
+                    <button class="btn-rallye" onclick="openModal('La Coupe du Corsaire')">Commander</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section">
+        <div class="container">
+            <h2>L'Équipage BDA</h2>
+            <p class="section-subtitle">Les marins qui tiennent la barre.</p>
+
+            <!-- Bureau Grid -->
+            <h3>Le Commandement (Bureau)</h3>
+            <div class="team-grid bureau-grid">
+                <div class="team-card boss-card">
+                    <h4>Augustin Maigne</h4>
+                    <span class="role">Président</span>
+                    <p>Le Capitaine qui trace le cap.</p>
+                </div>
+                <div class="team-card boss-card">
+                    <h4>Alix Boehly</h4>
+                    <span class="role">Vice-Présidente</span>
+                    <p>Le Second qui veille au grain.</p>
+                </div>
+                <div class="team-card boss-card">
+                    <h4>Guillaume de Calonne</h4>
+                    <span class="role">Trésorier</span>
+                    <p>Garde le butin en sécurité.</p>
+                </div>
+                <div class="team-card boss-card">
+                    <h4>Gabriel Demol</h4>
+                    <span class="role">Trésorier</span>
+                    <p>Compte les pièces d'or.</p>
+                </div>
+            </div>
+
+            <!-- Poles Grid -->
+            <h3>Les Matelots (Pôles)</h3>
+            <div class="team-grid poles-grid">
+                <!-- Event -->
+                <div class="pole-group">
+                    <h4>Pôle Événementiel</h4>
+                    <ul>
+                        <li>Erina Demont</li>
+                        <li>Séraphin De Senneville</li>
+                        <li>Henri Lictevout</li>
+                        <li>Eglantine Bentégeat</li>
+                    </ul>
+                </div>
+
+                <!-- Com -->
+                <div class="pole-group">
+                    <h4>Pôle Communication</h4>
+                    <ul>
+                        <li>Alban Mathieu</li>
+                        <li>Gaëlle Devaux</li>
+                        <li>Gaston Dujardin</li>
+                        <li>Maximilien de Borde</li>
+                    </ul>
+                </div>
+
+                <!-- Sponsors -->
+                <div class="pole-group">
+                    <h4>Pôle Sponsors</h4>
+                    <ul>
+                        <li>Félix Wemaere</li>
+                        <li>Foucauld Delacour</li>
+                        <li>Paul Trentesaux</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Order Form -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3>Commander : <span id="rallyeName"></span></h3>
+            <form id="rallyeForm">
+                <div class="form-group">
+                    <label for="name">Ton Nom / Surnom</label>
+                    <input type="text" id="name" required placeholder="Capitaine Crochet">
+                </div>
+                <div class="form-group">
+                    <label for="location">Ta Position (Lieu)</label>
+                    <input type="text" id="location" required placeholder="Foyer, Salle B12...">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Tel (optionnel)</label>
+                    <input type="tel" id="phone" placeholder="06...">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Précisions / Envies</label>
+                    <textarea id="notes" rows="3" placeholder="Ex: Sans gluten, musique rock, etc."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Valider la Commande</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2026 Cap'Icam - BDA. Tous droits réservés.</p>
+            <div class="socials">
+                <a href="https://www.instagram.com/capote.icam/" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
