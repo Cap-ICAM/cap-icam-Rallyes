@@ -1,3 +1,55 @@
+// --- PWA Installation Logic ---
+let deferredPrompt;
+const installBtn = document.createElement('li');
+installBtn.id = 'install-item';
+installBtn.style.display = 'none';
+installBtn.innerHTML = '<a href="#" class="btn-install"><i class="fas fa-download"></i> App</a>';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI notify the user they can add to home screen
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks && !document.getElementById('install-item')) {
+        navLinks.appendChild(installBtn);
+        installBtn.style.display = 'block';
+    }
+});
+
+installBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!deferredPrompt) return;
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+        } else {
+            console.log('User dismissed the install prompt');
+        }
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+    });
+});
+
+window.addEventListener('appinstalled', (evt) => {
+    console.log('App was installed.');
+    installBtn.style.display = 'none';
+});
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW Registered'))
+            .catch(err => console.log('SW Registration failed', err));
+    });
+}
+
+// --- Original Logic ---
 function openModal(rallyeName) {
     const modal = document.getElementById('orderModal');
     const rallyeTitleSpan = document.getElementById('rallyeName');

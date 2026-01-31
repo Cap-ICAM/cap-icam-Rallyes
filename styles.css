@@ -138,6 +138,39 @@ h3,
     box-shadow: 0 5px 15px rgba(197, 160, 101, 0.4);
 }
 
+/* Install Button in Nav */
+.btn-install {
+    background: var(--accent-gold);
+    color: var(--primary-blue) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    font-weight: 800 !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: pulse 2s infinite;
+    transition: transform 0.3s !important;
+}
+
+.btn-install:hover {
+    transform: scale(1.05);
+    background: var(--white) !important;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(200, 178, 115, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(200, 178, 115, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(200, 178, 115, 0);
+    }
+}
+
 /* Waves */
 .wave-container {
     position: absolute;
