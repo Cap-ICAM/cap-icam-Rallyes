@@ -1,43 +1,60 @@
 // --- PWA Installation Logic ---
 let deferredPrompt;
-const installBtn = document.createElement('li');
-installBtn.id = 'install-item';
-installBtn.style.display = 'none';
-installBtn.innerHTML = '<a href="#" class="btn-install"><i class="fas fa-download"></i> App</a>';
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
+// Create the install/help button
+const installBtnItem = document.createElement('li');
+installBtnItem.id = 'install-item';
+installBtnItem.style.display = 'none';
+installBtnItem.innerHTML = '<a href="#" class="btn-install"><i class="fas fa-download"></i> App</a>';
+
+console.log('PWA Logic Initialized');
+
+// Handle the "beforeinstallprompt" event (Chrome/Edge/Android)
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    console.log('beforeinstallprompt event fired');
     e.preventDefault();
-    // Stash the event so it can be triggered later.
     deferredPrompt = e;
-    // Update UI notify the user they can add to home screen
+
     const navLinks = document.querySelector('.nav-links');
     if (navLinks && !document.getElementById('install-item')) {
-        navLinks.appendChild(installBtn);
-        installBtn.style.display = 'block';
+        navLinks.appendChild(installBtnItem);
+        installBtnItem.style.display = 'block';
     }
 });
 
-installBtn.addEventListener('click', (e) => {
+// If it's iOS and not already installed, show the button as an "Instruction" button
+if (isIOS && !isStandalone) {
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        navLinks.appendChild(installBtnItem);
+        installBtnItem.style.display = 'block';
+        installBtnItem.querySelector('a').innerHTML = '<i class="fas fa-info-circle"></i> Installer App';
+    }
+}
+
+// Logic for clicking the install button
+installBtnItem.addEventListener('click', (e) => {
     e.preventDefault();
-    if (!deferredPrompt) return;
-    // Show the prompt
-    deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-        } else {
-            console.log('User dismissed the install prompt');
-        }
-        deferredPrompt = null;
-        installBtn.style.display = 'none';
-    });
+
+    if (isIOS) {
+        alert('⚓ Pour installer Cap\'Icam sur ton iPhone :\n\n1. Clique sur le bouton "Partager" ↑\n2. Choisis "Sur l\'écran d\'accueil"\n3. C\'est prêt !');
+    } else if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            installBtnItem.style.display = 'none';
+        });
+    }
 });
 
 window.addEventListener('appinstalled', (evt) => {
     console.log('App was installed.');
-    installBtn.style.display = 'none';
+    installBtnItem.style.display = 'none';
 });
 
 // Register Service Worker
@@ -118,6 +135,7 @@ document.getElementById('rallyeForm').addEventListener('submit', function (e) {
             btn.disabled = false;
         });
 });
+
 // Mobile Navigation Logic
 const navSlide = () => {
     const burger = document.querySelector('.hamburger');

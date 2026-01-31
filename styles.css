@@ -157,6 +157,14 @@ h3,
     background: var(--white) !important;
 }
 
+/* Ensure install button is visible in mobile menu */
+@media (max-width: 768px) {
+    #install-item {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(200, 178, 115, 0.7);
