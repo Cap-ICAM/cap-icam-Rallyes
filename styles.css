@@ -254,6 +254,7 @@ h3,
 .rallyes-section {
     padding: 4rem 2rem;
     background: linear-gradient(to bottom, #f0f8ff, #dbe9f6);
+    scroll-margin-top: 120px;
 }
 
 .container {
@@ -406,6 +407,7 @@ h3,
     padding: 4rem 2rem;
     background-color: var(--white);
     text-align: center;
+    scroll-margin-top: 120px;
 }
 
 .team-section h3 {
@@ -494,6 +496,7 @@ footer {
     color: var(--white);
     padding: 2rem;
     text-align: center;
+    scroll-margin-top: 120px;
 }
 
 .socials {
