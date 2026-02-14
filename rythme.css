@@ -143,6 +143,26 @@ body {
     background: #fff !important;
 }
 
+/* Progress Bar */
+.progress-bar-container {
+    position: absolute;
+    bottom: 115px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    z-index: 20;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-gold);
+    border-radius: 2px;
+    transition: width 0.2s linear;
+}
+
 /* Interaction Zones */
 .touch-zones {
     position: absolute;

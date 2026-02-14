@@ -139,6 +139,12 @@ function createTile(trackIndex, length = 0) {
 function update() {
     if (!gameActive) return;
 
+    // Update Progress Bar
+    if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progress-bar').style.width = progress + '%';
+    }
+
     const hitLineY = window.innerHeight - 120 - 4;
 
     for (let i = tiles.length - 1; i >= 0; i--) {
