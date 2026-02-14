@@ -1,0 +1,191 @@
+/* Rythme Game Styles */
+:root {
+    --primary-blue: #1a2b49;
+    --accent-gold: #c8b273;
+    --track-border: rgba(200, 178, 115, 0.2);
+    --hit-color: rgba(255, 255, 255, 0.2);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1a2b49, #0a1526);
+    overflow: hidden;
+    border-left: 2px solid var(--track-border);
+    border-right: 2px solid var(--track-border);
+}
+
+/* Tracks */
+.tracks-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.track {
+    flex: 1;
+    height: 100%;
+    border-right: 1px solid var(--track-border);
+    position: relative;
+}
+
+.track:last-child {
+    border-right: none;
+}
+
+/* Hit Line Target */
+.hit-line {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-gold);
+    box-shadow: 0 0 15px var(--accent-gold);
+    z-index: 5;
+}
+
+/* Tiles */
+.tile {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    height: 80px;
+    background: linear-gradient(to bottom, #f4e8d3, var(--accent-gold));
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #fff;
+}
+
+@keyframes vanish {
+    to {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.tile-hit {
+    animation: vanish 0.2s forwards;
+    background: #fff !important;
+}
+
+/* Interaction Zones */
+.touch-zones {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    z-index: 10;
+}
+
+.touch-zone {
+    flex: 1;
+    border: 1px solid var(--track-border);
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.touch-zone:active {
+    background: var(--hit-color);
+}
+
+.touch-zone span {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 800;
+}
+
+/* UI */
+#score-display {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#combo-display {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Screens */
+#start-screen,
+#game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 21, 38, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-gold);
+    font-size: 2.5rem;
+}
+
+button {
+    padding: 1rem 2rem;
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+    border: none;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.return-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+    text-decoration: none;
+}

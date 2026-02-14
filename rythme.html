@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cap'Icam Hero - Le Défi Rythmique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="rythme.css">
+    <link rel="icon" href="assets/logo_zoomed.jpg">
+</head>
+
+<body>
+
+    <div id="game-container">
+        <!-- Tracks -->
+        <div class="tracks-container">
+            <div class="track" id="track-0"></div>
+            <div class="track" id="track-1"></div>
+            <div class="track" id="track-2"></div>
+            <div class="track" id="track-3"></div>
+        </div>
+
+        <!-- Hit Line (Target) -->
+        <div class="hit-line"></div>
+
+        <!-- Touch Zones (for mobile) -->
+        <div class="touch-zones">
+            <div class="touch-zone" onmousedown="hit(0)" ontouchstart="event.preventDefault(); hit(0)"><span>S /
+                    J1</span></div>
+            <div class="touch-zone" onmousedown="hit(1)" ontouchstart="event.preventDefault(); hit(1)"><span>D /
+                    J2</span></div>
+            <div class="touch-zone" onmousedown="hit(2)" ontouchstart="event.preventDefault(); hit(2)"><span>K /
+                    J3</span></div>
+            <div class="touch-zone" onmousedown="hit(3)" ontouchstart="event.preventDefault(); hit(3)"><span>L /
+                    J4</span></div>
+        </div>
+
+        <!-- Score & UI -->
+        <div id="score-display">0</div>
+        <div id="combo-display">COMBO x0</div>
+
+        <audio id="audio-player" src="assets/musique.mp3"></audio>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <a href="index.html" class="return-btn">⬅ Retour</a>
+        <h1>Cap'Icam Hero 🎸</h1>
+        <p>Tape les pièces dorées en rythme avec l'hymne !</p>
+        <div style="margin: 20px 0;">
+            <input type="text" id="playerName" placeholder="Ton Prénom NOM" maxlength="25">
+        </div>
+        <button onclick="startGame()">LANCER LA MUSIQUE</button>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #ccc;">Touches: S, D, K, L ou Écran Tactile</p>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" style="display: none;">
+        <h1 id="game-over-title">CONCERT FINI ! ⚓</h1>
+        <p id="final-stats">Score: 0 | Combo Max: 0</p>
+        <button onclick="location.reload()">REESSAYER</button>
+        <br><br>
+        <a href="index.html" style="color: #c8b273; text-decoration: none;">Quitter le navire</a>
+    </div>
+
+    <script src="rythme.js"></script>
+</body>
+
+</html>
