@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FlappyCap - Cap'Icam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
+    <link rel="icon" href="assets/logo_zoomed.jpg">
+</head>
+
+<body>
+
+    <!-- Music Player -->
+    <audio id="audio-player" src="assets/musique.mp3" loop></audio>
+    <button id="music-btn" title="Hymne Cap'Icam">🎵</button>
+
+    <div id="game-container">
+        <div id="score">0</div>
+        <div id="ship"></div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <a href="index.html" class="return-btn">⬅ Retour aux Rallyes</a>
+        <h1>FlappyCap ⛵</h1>
+        <p style="margin-bottom: 2rem;">Navigue entre les récifs pour gagner des lots !</p>
+        <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 0.5rem;">(Ton vrai nom pour le classement)</p>
+        <input type="text" id="playerName" placeholder="Prénom NOM" maxlength="25">
+        <button onclick="startGame()">JOUER</button>
+
+        <div id="leaderboard">
+            <h2>🏆 Meilleurs Marins</h2>
+            <div id="leaderboard-list">
+                <!-- Scores will be injected here -->
+                <div class="score-entry"><span>Chargement...</span><span></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" style="display: none;">
+        <h1>Naufrage ! 🐙</h1>
+        <p style="font-size: 1.5rem; margin-bottom: 2rem;">Score: <span id="finalScore">0</span></p>
+        <button onclick="resetGame()">REJOUER</button>
+        <br><br>
+        <a href="index.html" style="color: #c8b273; text-decoration: none;">Retour aux Rallyes</a>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
