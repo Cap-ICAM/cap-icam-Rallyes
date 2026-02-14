@@ -62,13 +62,40 @@ function spawnTiles() {
     });
 
     if (safeTracks.length > 0) {
-        const randomTrack = safeTracks[Math.floor(Math.random() * safeTracks.length)];
-
         // Limit to 1 long tile on screen at a time
         const hasLongTile = tiles.some(t => t.length > 0);
-        const isLong = !hasLongTile && Math.random() < 0.25;
+        // Increase probability slightly to 30% if no long tile exists
+        const wantLong = !hasLongTile && Math.random() < 0.3;
 
-        createTile(randomTrack, isLong ? 300 : 0);
+        let trackIndex;
+        let isLong = false;
+
+        if (wantLong) {
+            // Check availability of Left (0) and Right (3) explicitly
+            const canLeft = safeTracks.includes(0);
+            const canRight = safeTracks.includes(3);
+
+            if (canLeft && canRight) {
+                // Strictly 50/50 chance
+                trackIndex = Math.random() < 0.5 ? 0 : 3;
+                isLong = true;
+            } else if (canLeft) {
+                trackIndex = 0;
+                isLong = true;
+            } else if (canRight) {
+                trackIndex = 3;
+                isLong = true;
+            }
+            // If neither is available, we fall through to normal tile selection
+        }
+
+        // Fallback: Normal tile on any safe track
+        if (trackIndex === undefined) {
+            trackIndex = safeTracks[Math.floor(Math.random() * safeTracks.length)];
+            isLong = false;
+        }
+
+        createTile(trackIndex, isLong ? 300 : 0);
     }
 
     const intensity = Math.min(score / 10000, 1);
