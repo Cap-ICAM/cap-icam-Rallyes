@@ -22,7 +22,7 @@ let obstacleLoop;
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJG1Umt06zomtl9rZit_tY7JrGoh5S8WpmYIV2FSp3COI7mMNu0Vv7XxvWca8J9RZhag/exec';
 
 function updateLeaderboard() {
-    leaderboardList.innerHTML = '<div class="score-entry"><span>Chargement...</span><span>⏳</span></div>';
+    leaderboardList.innerHTML = '<div class="loading-container"><div class="spinner"></div><span>Recherche des meilleurs marins...</span></div>';
 
     fetch(GOOGLE_SCRIPT_URL)
         .then(response => response.json())
@@ -75,6 +75,7 @@ function startGame() {
 
     // Game Loops
     gameLoop = setInterval(updateGame, 20);
+    createObstacle(window.innerWidth * 0.7); // Create first obstacle already visible at 70% of screen
     obstacleLoop = setInterval(createObstacle, 2000); // New obstacle every 2s
 }
 
@@ -96,22 +97,24 @@ function updateGame() {
     moveObstacles();
 }
 
-function createObstacle() {
+function createObstacle(initialX) {
     const gapHeight = 200; // Gap size for ship to pass
     const obstacleWidth = 60;
     const minHeight = 50;
     const maxHeight = window.innerHeight - gapHeight - minHeight;
     const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
 
+    const startX = (initialX !== undefined) ? initialX : window.innerWidth;
+
     const obstacleTop = document.createElement('div');
     obstacleTop.classList.add('obstacle', 'obstacle-top');
     obstacleTop.style.height = topHeight + 'px';
-    obstacleTop.style.left = window.innerWidth + 'px';
+    obstacleTop.style.left = startX + 'px';
 
     const obstacleBottom = document.createElement('div');
     obstacleBottom.classList.add('obstacle', 'obstacle-bottom');
     obstacleBottom.style.height = (window.innerHeight - gapHeight - topHeight) + 'px';
-    obstacleBottom.style.left = window.innerWidth + 'px';
+    obstacleBottom.style.left = startX + 'px';
 
     gameContainer.appendChild(obstacleTop);
     gameContainer.appendChild(obstacleBottom);

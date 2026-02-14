@@ -189,3 +189,10 @@ window.addEventListener('scroll', function () {
         heroTagline.style.opacity = 1 - (scrollPosition / 500);
     }
 });
+// --- Final Touches ---
+// Force scroll to top on refresh
+window.onload = function () {
+    if (!window.location.hash) {
+        window.scrollTo(0, 0);
+    }
+};
