@@ -4,6 +4,7 @@ const scoreDisplay = document.getElementById('score');
 const startScreen = document.getElementById('start-screen');
 const gameOverScreen = document.getElementById('game-over-screen');
 const finalScoreDisplay = document.getElementById('finalScore');
+const punchlineDisplay = document.getElementById('punchline');
 const playerNameInput = document.getElementById('playerName');
 const leaderboardList = document.getElementById('leaderboard-list');
 
@@ -17,29 +18,28 @@ let obstacles = [];
 let gameLoop;
 let obstacleLoop;
 
-// Local Storage for High Scores (Simulated Leaderboard)
-// In a real app, this would fetch from a database (Google Sheets/Firebase)
-let highScores = JSON.parse(localStorage.getItem('capIcamScores')) || [
-    { name: "Cap'tain Gus", score: 12 },
-    { name: "Chaton", score: 8 },
-    { name: "Zbeulix", score: 5 }
-];
+// Online Leaderboard URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJG1Umt06zomtl9rZit_tY7JrGoh5S8WpmYIV2FSp3COI7mMNu0Vv7XxvWca8J9RZhag/exec';
 
 function updateLeaderboard() {
-    // Sort by score descending
-    highScores.sort((a, b) => b.score - a.score);
-    // Keep top 3
-    highScores = highScores.slice(0, 3);
+    leaderboardList.innerHTML = '<div class="score-entry"><span>Chargement...</span><span>⏳</span></div>';
 
-    leaderboardList.innerHTML = '';
-    highScores.forEach(entry => {
-        const div = document.createElement('div');
-        div.className = 'score-entry';
-        div.innerHTML = `<span>${entry.name}</span><span>${entry.score}</span>`;
-        leaderboardList.appendChild(div);
-    });
-
-    localStorage.setItem('capIcamScores', JSON.stringify(highScores));
+    fetch(GOOGLE_SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            leaderboardList.innerHTML = '';
+            // Data is already sorted and limited to top 3 by Google Script
+            data.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'score-entry';
+                div.innerHTML = `<span>${entry.name}</span><span>${entry.score}</span>`;
+                leaderboardList.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching leaderboard:', error);
+            leaderboardList.innerHTML = '<div class="score-entry"><span>Erreur connexion</span><span>❌</span></div>';
+        });
 }
 
 // Initial leaderboard render
@@ -170,12 +170,32 @@ function endGame() {
     clearInterval(obstacleLoop);
 
     finalScoreDisplay.innerText = score;
+
+    // Random Punchline
+    const punchlines = [
+        "Sombré comme ta moyenne de maths...",
+        "Cap'Icam coule ? Jamais ! Toi par contre...",
+        "Même le Titanic a fait mieux.",
+        "Encore un qui a bu trop de canouche !"
+    ];
+    punchlineDisplay.innerText = punchlines[Math.floor(Math.random() * punchlines.length)];
+
     gameOverScreen.style.display = 'flex';
 
-    // Save Score
+    // Save Score Online
     const name = playerNameInput.value.trim();
-    highScores.push({ name: name, score: score });
-    updateLeaderboard();
+
+    // Send score to Google Sheet
+    fetch(GOOGLE_SCRIPT_URL + `?action=addScore&name=${encodeURIComponent(name)}&score=${score}`, {
+        method: 'POST',
+        mode: 'no-cors' // Important for Google Script
+    })
+        .then(() => {
+            console.log("Score sent!");
+            // Refresh leaderboard after sending
+            setTimeout(updateLeaderboard, 1000); // Small delay to let Sheet update
+        })
+        .catch(err => console.error("Error sending score:", err));
 }
 
 function resetGame() {
