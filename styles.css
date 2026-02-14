@@ -94,7 +94,15 @@ h3,
     justify-content: center;
     align-items: center;
     text-align: center;
+    text-align: center;
     overflow: hidden;
+    perspective: 1px;
+}
+
+.hero-logo,
+.hero h1,
+.tagline {
+    will-change: transform;
 }
 
 .hero-content {
@@ -600,7 +608,8 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(26, 43, 73, 0.95); /* Primary Blue transparent */
+    background-color: rgba(26, 43, 73, 0.95);
+    /* Primary Blue transparent */
     color: var(--white);
     display: flex;
     justify-content: center;
@@ -635,4 +644,48 @@ footer {
 /* Ensure footer doesn't get hidden behind the fixed bar */
 body {
     padding-bottom: 40px;
+}
+
+/* Music Button */
+#music-btn {
+    position: fixed;
+    bottom: 60px;
+    /* Just above the countdown bar */
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s, background 0.3s;
+}
+
+#music-btn:hover {
+    transform: scale(1.1);
+    background: var(--white);
+}
+
+.music-playing {
+    animation: spin 3s linear infinite;
+    background: var(--white) !important;
+    color: var(--accent-gold) !important;
+    border: 2px solid var(--accent-gold) !important;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

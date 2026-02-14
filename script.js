@@ -146,3 +146,37 @@ function updateCountdown() {
 // Update every second
 setInterval(updateCountdown, 1000);
 updateCountdown(); // Initial call
+
+// --- Music Player Logic ---
+const musicBtn = document.getElementById('music-btn');
+const audioPlayer = document.getElementById('audio-player');
+
+if (musicBtn && audioPlayer) {
+    musicBtn.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+            audioPlayer.play().then(() => {
+                musicBtn.textContent = '⏸️'; // Change icon to Pause
+                musicBtn.classList.add('music-playing');
+            }).catch(error => {
+                console.log("Lecture bloquée par le navigateur (autoplay policy) : " + error);
+                alert("Impossible de lancer la musique. Vérifie que le fichier est bien présent !");
+            });
+        } else {
+            audioPlayer.pause();
+            musicBtn.textContent = '🎵'; // Change icon back to Music Note
+            musicBtn.classList.remove('music-playing');
+        }
+    });
+}
+
+// --- Parallax Effect ---
+window.addEventListener('scroll', function () {
+    const scrollPosition = window.pageYOffset;
+    const heroLogo = document.querySelector('.hero-logo');
+    const heroText = document.querySelector('.hero h1');
+    const heroTagline = document.querySelector('.tagline');
+
+    if (heroLogo) heroLogo.style.transform = 'translateY(' + scrollPosition * 0.4 + 'px)';
+    if (heroText) heroText.style.transform = 'translateY(' + scrollPosition * 0.3 + 'px)';
+    if (heroTagline) heroTagline.style.transform = 'translateY(' + scrollPosition * 0.2 + 'px)';
+});
