@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cap'Icam Hero - Le Défi Rythmique</title>
+    <title>Symphonie du Cap'tain - Cap'Icam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -41,12 +41,26 @@
         <div id="combo-display">COMBO x0</div>
 
         <audio id="audio-player" src="assets/musique.mp3"></audio>
+
+        <!-- Dynamic Waves Background -->
+        <div class="game-waves">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(200, 178, 115, 0.2)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(200, 178, 115, 0.1)" />
+                </g>
+            </svg>
+        </div>
     </div>
 
     <!-- Start Screen -->
     <div id="start-screen">
-        <a href="index.html" class="return-btn">⬅ Retour</a>
-        <h1>Cap'Icam Hero 🎸</h1>
+        <a href="games.html" class="return-btn">⬅ Retour à l'Arcade</a>
+        <h1>Symphonie du Cap'tain 🎻</h1>
         <p>Tape les pièces dorées en rythme avec l'hymne !</p>
         <div style="margin: 20px 0;">
             <input type="text" id="playerName" placeholder="Ton Prénom NOM" maxlength="25">
@@ -61,7 +75,7 @@
         <p id="final-stats">Score: 0 | Combo Max: 0</p>
         <button onclick="location.reload()">REESSAYER</button>
         <br><br>
-        <a href="index.html" style="color: #c8b273; text-decoration: none;">Quitter le navire</a>
+        <a href="games.html" style="color: #c8b273; text-decoration: none;">Quitter le concert</a>
     </div>
 
     <script src="rythme.js"></script>
