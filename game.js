@@ -28,8 +28,8 @@ let highScores = JSON.parse(localStorage.getItem('capIcamScores')) || [
 function updateLeaderboard() {
     // Sort by score descending
     highScores.sort((a, b) => b.score - a.score);
-    // Keep top 5
-    highScores = highScores.slice(0, 5);
+    // Keep top 3
+    highScores = highScores.slice(0, 3);
 
     leaderboardList.innerHTML = '';
     highScores.forEach(entry => {

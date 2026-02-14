@@ -522,6 +522,34 @@ footer {
     color: var(--accent-gold);
 }
 
+/* Hamburger Styling (Default Hidden) */
+.hamburger {
+    display: none;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--white);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Hamburger Animation to 'X' */
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+    background-color: var(--accent-gold);
+}
+
+.toggle .line2 {
+    opacity: 0;
+}
+
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+    background-color: var(--accent-gold);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero h1 {
@@ -574,33 +602,7 @@ footer {
     }
 }
 
-/* Hamburger Styling */
-.hamburger {
-    display: none;
-}
 
-.hamburger div {
-    width: 25px;
-    height: 3px;
-    background-color: var(--white);
-    margin: 5px;
-    transition: all 0.3s ease;
-}
-
-/* Hamburger Animation to 'X' */
-.toggle .line1 {
-    transform: rotate(-45deg) translate(-5px, 6px);
-    background-color: var(--accent-gold);
-}
-
-.toggle .line2 {
-    opacity: 0;
-}
-
-.toggle .line3 {
-    transform: rotate(45deg) translate(-5px, -6px);
-    background-color: var(--accent-gold);
-}
 
 /* Countdown Bar */
 #countdown-bar {
