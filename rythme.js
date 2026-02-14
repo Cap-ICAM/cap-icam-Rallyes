@@ -49,9 +49,21 @@ function startGame() {
 function spawnTiles() {
     if (!gameActive) return;
 
-    const randomTrack = Math.floor(Math.random() * 4);
-    const isLong = Math.random() < 0.25;
-    createTile(randomTrack, isLong ? 300 : 0);
+    // Filter tracks: only pick tracks that don't have a tile in the top 300px
+    const safeTracks = [0, 1, 2, 3].filter(tIdx => {
+        const tilesOnTrack = tiles.filter(t => t.track === tIdx);
+        if (tilesOnTrack.length === 0) return true;
+
+        // Find the top-most part of any tile on this track
+        const topMost = Math.min(...tilesOnTrack.map(t => t.top - (t.length || 0)));
+        return topMost > 150; // Ensure at least 150px gap from the top spawn point (-100)
+    });
+
+    if (safeTracks.length > 0) {
+        const randomTrack = safeTracks[Math.floor(Math.random() * safeTracks.length)];
+        const isLong = Math.random() < 0.25;
+        createTile(randomTrack, isLong ? 300 : 0);
+    }
 
     const intensity = Math.min(score / 10000, 1);
     const minDelay = 400 - (intensity * 150);
