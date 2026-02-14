@@ -101,6 +101,7 @@ function createTile(trackIndex, length = 0) {
         track: trackIndex,
         top: -100,
         length: length,
+        remainingLength: length,
         hit: false,
         fullyProcessed: false
     });
@@ -113,45 +114,52 @@ function update() {
 
     for (let i = tiles.length - 1; i >= 0; i--) {
         const tile = tiles[i];
-        tile.top += tileSpeed;
-        tile.element.style.top = tile.top + 'px';
 
-        // Long tile holding logic
         if (tile.length > 0 && tile.hit && !tile.fullyProcessed) {
+            // PIN HEAD TO HIT LINE WHILE HOLDING
+            tile.element.style.top = (hitLineY - 20) + 'px';
+
             if (isHoldingTrack[tile.track]) {
                 const headMultiplier = 1 + (perfectCombo * 0.05);
                 score += Math.floor(2 * headMultiplier);
                 scoreDisplay.innerText = score;
+
+                // Shrink tail
+                tile.remainingLength -= tileSpeed;
+                tile.element.style.setProperty('--tail-len', Math.max(0, tile.remainingLength) + 'px');
+
                 if (Math.random() > 0.7) createParticles(tracks[tile.track], hitLineY);
+
+                // If tail is finished
+                if (tile.remainingLength <= 0) {
+                    tile.fullyProcessed = true;
+                    tile.element.classList.remove('holding');
+                    tile.element.style.display = 'none';
+                }
             } else {
-                // Check if they let go too early
-                const tailEndPos = tile.top - tile.length;
-                if (tailEndPos < hitLineY - 60) {
+                // PLAYER RELEASED EARLY - Check if they were close enough to the end
+                if (tile.remainingLength > 60) {
                     endGame("Note longue relâchée trop tôt ! 🐙");
                     return;
                 } else {
                     tile.fullyProcessed = true;
                     tile.element.classList.remove('holding');
+                    tile.element.style.display = 'none';
                 }
             }
+        } else {
+            // NORMAL TILE OR LONG TILE NOT YET HIT
+            tile.top += tileSpeed;
+            tile.element.style.top = tile.top + 'px';
         }
 
-        // Auto-fail if head passes too far
+        // Auto-fail if head passes too far before being hit
         if (tile.top > hitLineY + 30 && !tile.hit) {
             endGame("Note manquée ! Naufrage...");
             return;
         }
 
-        // Auto-complete long tile if still holding at the very end
-        if (tile.length > 0 && tile.hit && !tile.fullyProcessed) {
-            const tailEndPos = tile.top - tile.length;
-            if (tailEndPos > hitLineY) {
-                tile.fullyProcessed = true;
-                tile.element.classList.remove('holding');
-            }
-        }
-
-        // Cleanup
+        // Cleanup tiles that are far gone
         if (tile.top > window.innerHeight + 500) {
             tile.element.remove();
             tiles.splice(i, 1);
