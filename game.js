@@ -144,7 +144,7 @@ function moveObstacles() {
         }
 
         // Score Update
-        if (obsLeft + 60 < shipRect.left && !obs.passed) {
+        if (topRect.right < shipRect.left && !obs.passed) {
             score++;
             scoreDisplay.innerText = score;
             obs.passed = true;
