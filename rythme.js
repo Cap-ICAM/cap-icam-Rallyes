@@ -61,7 +61,11 @@ function spawnTiles() {
 
     if (safeTracks.length > 0) {
         const randomTrack = safeTracks[Math.floor(Math.random() * safeTracks.length)];
-        const isLong = Math.random() < 0.25;
+
+        // Limit to 1 long tile on screen at a time
+        const hasLongTile = tiles.some(t => t.length > 0);
+        const isLong = !hasLongTile && Math.random() < 0.25;
+
         createTile(randomTrack, isLong ? 300 : 0);
     }
 
