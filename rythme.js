@@ -12,16 +12,15 @@ const gameOverScreen = document.getElementById('game-over-screen');
 const playerNameInput = document.getElementById('playerName');
 
 let score = 0;
-let combo = 0;
-let maxCombo = 0;
+let perfectCombo = 0;
+let maxPerfectCombo = 0;
 let gameActive = false;
 let gameLoop;
-let tileSpeed = 6; // Pixels per frame
+let tileSpeed = 6;
 let tiles = [];
 let isHoldingTrack = [false, false, false, false];
 let activeHoldTile = [null, null, null, null];
 
-// Pre-fill name from localStorage
 const storedName = localStorage.getItem('capIcamPlayerName');
 if (storedName) playerNameInput.value = storedName;
 
@@ -36,17 +35,14 @@ function startGame() {
     startScreen.style.display = 'none';
     gameActive = true;
     score = 0;
-    combo = 0;
-    maxCombo = 0;
+    perfectCombo = 0;
+    maxPerfectCombo = 0;
+    tiles = [];
 
-    // Start Audio
     audio.currentTime = 0;
     audio.play();
 
-    // Start Game Loop
     gameLoop = setInterval(update, 20);
-
-    // Initial tile generator (simulated rhythm)
     spawnTiles();
 }
 
@@ -54,20 +50,16 @@ function spawnTiles() {
     if (!gameActive) return;
 
     const randomTrack = Math.floor(Math.random() * 4);
+    const isLong = Math.random() < 0.25;
+    createTile(randomTrack, isLong ? 300 : 0);
 
-    // 20% chance for a long tile
-    const isLong = Math.random() < 0.2;
-    createTile(randomTrack, isLong ? 250 : 0);
-
-    // Spawn timing based on combo (intensity)
-    const intensity = Math.min(combo / 50, 1);
+    const intensity = Math.min(score / 10000, 1);
     const minDelay = 400 - (intensity * 150);
     const maxDelay = 800 - (intensity * 300);
 
     const nextSpawn = Math.random() * (maxDelay - minDelay) + minDelay;
     setTimeout(spawnTiles, nextSpawn);
 
-    // Update wave speed based on intensity in background
     document.querySelectorAll('.parallax > use').forEach(u => {
         u.style.animationDuration = (10 - (intensity * 6)) + 's';
     });
@@ -101,44 +93,56 @@ function createTile(trackIndex, length = 0) {
 function update() {
     if (!gameActive) return;
 
-    const hitLineY = window.innerHeight - 120 - 4; // bottom - hit-line height
+    const hitLineY = window.innerHeight - 120 - 4;
 
-    tiles.forEach((tile, index) => {
+    for (let i = tiles.length - 1; i >= 0; i--) {
+        const tile = tiles[i];
         tile.top += tileSpeed;
         tile.element.style.top = tile.top + 'px';
 
-        // Long tile processing
+        // Long tile holding logic
         if (tile.length > 0 && tile.hit && !tile.fullyProcessed) {
-            // Check if player still holding
             if (isHoldingTrack[tile.track]) {
-                score += 2; // Small points for holding
+                const headMultiplier = 1 + (perfectCombo * 0.05);
+                score += Math.floor(2 * headMultiplier);
                 scoreDisplay.innerText = score;
-                createParticles(tracks[tile.track], hitLineY);
+                if (Math.random() > 0.7) createParticles(tracks[tile.track], hitLineY);
             } else {
-                // Let go too early!
+                // Check if they let go too early
+                const tailEndPos = tile.top - tile.length;
+                if (tailEndPos < hitLineY - 60) {
+                    endGame("Note longue relâchée trop tôt ! 🐙");
+                    return;
+                } else {
+                    tile.fullyProcessed = true;
+                    tile.element.classList.remove('holding');
+                }
+            }
+        }
+
+        // Auto-fail if head passes too far
+        if (tile.top > hitLineY + 30 && !tile.hit) {
+            endGame("Note manquée ! Naufrage...");
+            return;
+        }
+
+        // Auto-complete long tile if still holding at the very end
+        if (tile.length > 0 && tile.hit && !tile.fullyProcessed) {
+            const tailEndPos = tile.top - tile.length;
+            if (tailEndPos > hitLineY) {
                 tile.fullyProcessed = true;
                 tile.element.classList.remove('holding');
             }
         }
 
-        // Auto-fail if tile head or tail passes hit line
-        const tailEnd = tile.length > 0 ? tile.top + 80 + tile.length : tile.top + 80;
-        if (tile.top > hitLineY + 20 && !tile.hit) {
-            endGame("Tu as manqué une note ! Naufrage...");
-            return;
-        }
-
-        // Remove tile when tail is fully gone
-        if (tile.top > window.innerHeight) {
+        // Cleanup
+        if (tile.top > window.innerHeight + 500) {
             tile.element.remove();
-            tiles.splice(index, 1);
+            tiles.splice(i, 1);
         }
-    });
-
-    // End game if music finished
-    if (audio.ended) {
-        endGame();
     }
+
+    if (audio.ended) endGame();
 }
 
 function hit(trackIndex) {
@@ -147,13 +151,15 @@ function hit(trackIndex) {
 
     const hitLineY = window.innerHeight - 120 - 4;
     const activeTiles = tiles.filter(t => t.track === trackIndex && !t.hit);
+
     let hitFound = false;
 
     activeTiles.forEach(tile => {
-        const headPos = tile.top + (tile.length > 0 ? 40 : 80);
-        const distance = Math.abs(headPos - hitLineY);
+        // For long tiles, the head is small (top part), for normal tiles it's the whole block
+        const checkPos = tile.top + (tile.length > 0 ? 20 : 40);
+        const distance = Math.abs(checkPos - hitLineY);
 
-        if (distance < 70) {
+        if (distance < 80) {
             tile.hit = true;
             createParticles(tracks[trackIndex], hitLineY);
 
@@ -165,22 +171,27 @@ function hit(trackIndex) {
             }
 
             let points = 0;
-            if (distance < 20) {
+            let precisionText = "";
+
+            if (distance < 25) {
                 points = 100;
-                showFloatingText("PERFECT!", tracks[trackIndex], hitLineY);
-            } else if (distance < 40) {
-                points = 50;
-                showFloatingText("BIEN!", tracks[trackIndex], hitLineY);
+                perfectCombo++;
+                if (perfectCombo > maxPerfectCombo) maxPerfectCombo = perfectCombo;
+                precisionText = "PERFECT!";
             } else {
-                points = 20;
+                points = 50;
+                perfectCombo = 0;
+                precisionText = distance < 50 ? "BIEN" : "OK";
             }
 
-            score += points;
-            combo++;
-            if (combo > maxCombo) maxCombo = combo;
+            const multiplier = 1 + (perfectCombo * 0.1);
+            score += Math.floor(points * multiplier);
 
             scoreDisplay.innerText = score;
-            comboDisplay.innerText = `COMBO x${combo}`;
+            comboDisplay.innerText = perfectCombo > 1 ? `PERFECT x${perfectCombo}` : "";
+            comboDisplay.style.color = perfectCombo > 5 ? "#ffcc00" : "#fff";
+
+            showFloatingText(precisionText, tracks[trackIndex], hitLineY);
             hitFound = true;
 
             if (tile.length === 0) {
@@ -191,93 +202,65 @@ function hit(trackIndex) {
             }
         }
     });
+
+    // If no tile hit, it's just a click (no penalty for now to keep it fun)
 }
 
 function release(trackIndex) {
     isHoldingTrack[trackIndex] = false;
-    const tile = activeHoldTile[trackIndex];
-    if (tile) {
-        tile.fullyProcessed = true;
-        tile.element.classList.remove('holding');
-        activeHoldTile[trackIndex] = null;
-    }
+    activeHoldTile[trackIndex] = null;
 }
 
 function createParticles(parent, y) {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         const p = document.createElement('div');
         p.className = 'particle';
         const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 50 + 20;
+        const velocity = Math.random() * 40 + 10;
         p.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
         p.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
         p.style.left = '50%';
         p.style.top = y + 'px';
-        p.style.animation = 'particle-fade 0.4s forwards';
+        p.style.animation = 'particle-fade 0.3s forwards';
         parent.appendChild(p);
-        setTimeout(() => p.remove(), 400);
+        setTimeout(() => p.remove(), 300);
     }
 }
 
 function showFloatingText(text, parent, y) {
     const ft = document.createElement('div');
     ft.className = 'floating-score';
-    ft.style.top = (y - 50) + 'px';
+    ft.style.top = (y - 60) + 'px';
     ft.innerText = text;
+    if (text === "PERFECT!") ft.style.color = "#ffcc00";
     parent.appendChild(ft);
     setTimeout(() => ft.remove(), 500);
 }
 
 function endGame(reason = "Concert fini !") {
+    if (!gameActive) return;
     gameActive = false;
     clearInterval(gameLoop);
     audio.pause();
 
-    const titleObj = document.getElementById('game-over-title');
-    const statsObj = document.getElementById('final-stats');
-
-    if (titleObj) titleObj.innerText = reason === "Concert fini !" ? "CONCERT FINI ! ⚓" : "OH NON ! 🐙";
-    if (statsObj) statsObj.innerText = reason + " (Score: " + score + ")";
-
+    document.getElementById('game-over-title').innerText = reason === "Concert fini !" ? "CONCERT FINI ! ⚓" : "NAUFRAGE ! 🐙";
+    document.getElementById('final-stats').innerText = reason + " (Score: " + score + ")";
     gameOverScreen.style.display = 'flex';
 }
 
-// Key Listeners
 window.addEventListener('keydown', (e) => {
-    switch (e.key.toLowerCase()) {
-        case 's': hit(0); break;
-        case 'd': hit(1); break;
-        case 'k': hit(2); break;
-        case 'l': hit(3); break;
-    }
+    const keys = { 's': 0, 'd': 1, 'k': 2, 'l': 3 };
+    const idx = keys[e.key.toLowerCase()];
+    if (idx !== undefined) hit(idx);
 });
 
 window.addEventListener('keyup', (e) => {
-    switch (e.key.toLowerCase()) {
-        case 's': release(0); break;
-        case 'd': release(1); break;
-        case 'k': release(2); break;
-        case 'l': release(3); break;
-    }
+    const keys = { 's': 0, 'd': 1, 'k': 2, 'l': 3 };
+    const idx = keys[e.key.toLowerCase()];
+    if (idx !== undefined) release(idx);
 });
 
-// Mobile Touch Listeners
 document.querySelectorAll('.touch-zone').forEach((zone, index) => {
-    zone.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        hit(index);
-    }, { passive: false });
-
-    zone.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        release(index);
-    }, { passive: false });
-
-    // Also support mouse for PC debugging
-    zone.addEventListener('mousedown', (e) => {
-        hit(index);
-    });
-    zone.addEventListener('mouseup', (e) => {
-        release(index);
-    });
+    zone.addEventListener('touchstart', (e) => { e.preventDefault(); hit(index); }, { passive: false });
+    zone.addEventListener('touchend', (e) => { e.preventDefault(); release(index); }, { passive: false });
 });
