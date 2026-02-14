@@ -66,7 +66,7 @@ window.onclick = function (event) {
     }
 }
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJG1Umt06zomtl9rZit_tY7JrGoh5S8WpmYIV2FSp3COI7mMNu0Vv7XxvWca8J9RZhag/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu82VkAcq3SeWYSEMj4g_-18EDcQGFvlPLFysaOYXiiAO2oszk_W9GR70ohCz4eMZCXw/exec';
 
 const rallyeForm = document.getElementById('rallyeForm');
 if (rallyeForm) {

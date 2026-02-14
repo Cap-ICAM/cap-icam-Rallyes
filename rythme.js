@@ -11,6 +11,8 @@ const startScreen = document.getElementById('start-screen');
 const gameOverScreen = document.getElementById('game-over-screen');
 const playerNameInput = document.getElementById('playerName');
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu82VkAcq3SeWYSEMj4g_-18EDcQGFvlPLFysaOYXiiAO2oszk_W9GR70ohCz4eMZCXw/exec';
+
 let score = 0;
 let perfectCombo = 0;
 let maxPerfectCombo = 0;
@@ -267,8 +269,25 @@ function endGame(reason = "Concert fini !") {
     clearInterval(gameLoop);
     audio.pause();
 
-    document.getElementById('game-over-title').innerText = reason === "Concert fini !" ? "CONCERT FINI ! ⚓" : "NAUFRAGE ! 🐙";
-    document.getElementById('final-stats').innerText = reason + " (Score: " + score + ")";
+    const titleElement = document.getElementById('game-over-title');
+    const statsElement = document.getElementById('final-stats');
+
+    if (reason === "Concert fini !") {
+        titleElement.innerText = "CONCERT FINI ! ⚓";
+        statsElement.innerHTML = `Score: <b>${score}</b><br><br><span style="color: #c8b273; font-size: 1.1rem; display: block; padding: 10px; background: rgba(200, 178, 115, 0.1); border-radius: 10px;">🎁 Bravo ! Viens chercher ton lot au stand <b>Cap'Icam</b> avec cette preuve de réussite !</span>`;
+
+        // Save Success to Google Sheet
+        const name = playerNameInput.value.trim();
+        fetch(GOOGLE_SCRIPT_URL + `?action=addRythme&name=${encodeURIComponent(name)}&score=${score}`, {
+            method: 'POST',
+            mode: 'no-cors'
+        }).catch(err => console.error("Error logging success:", err));
+
+    } else {
+        titleElement.innerText = "NAUFRAGE ! 🐙";
+        statsElement.innerText = reason + " (Score: " + score + ")";
+    }
+
     gameOverScreen.style.display = 'flex';
 }
 

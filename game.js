@@ -19,7 +19,7 @@ let gameLoop;
 let obstacleLoop;
 
 // Online Leaderboard URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJG1Umt06zomtl9rZit_tY7JrGoh5S8WpmYIV2FSp3COI7mMNu0Vv7XxvWca8J9RZhag/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu82VkAcq3SeWYSEMj4g_-18EDcQGFvlPLFysaOYXiiAO2oszk_W9GR70ohCz4eMZCXw/exec';
 
 function updateLeaderboard() {
     leaderboardList.innerHTML = '<div class="loading-container"><div class="spinner"></div><span>Recherche des meilleurs marins...</span></div>';

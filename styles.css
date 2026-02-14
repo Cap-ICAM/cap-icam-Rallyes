@@ -83,6 +83,15 @@ h3,
     color: var(--accent-gold);
 }
 
+.nav-social-icon {
+    font-size: 1.4rem;
+    color: var(--accent-gold) !important;
+}
+
+.nav-social-icon:hover {
+    transform: scale(1.1);
+}
+
 /* Hero Section */
 .hero {
     position: relative;
