@@ -193,3 +193,16 @@ window.addEventListener('keydown', (e) => {
         case 'l': hit(3); break;
     }
 });
+
+// Mobile Touch Listeners
+document.querySelectorAll('.touch-zone').forEach((zone, index) => {
+    zone.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent scrolling/zooming
+        hit(index);
+    }, { passive: false });
+
+    // Also support mouse for PC debugging
+    zone.addEventListener('mousedown', (e) => {
+        hit(index);
+    });
+});
