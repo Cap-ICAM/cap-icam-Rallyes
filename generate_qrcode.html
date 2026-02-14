@@ -5,56 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de QR Code - Cap'Icam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Open+Sans:wght@600&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #1a2b49;
+            --accent-gold: #c8b273;
+            --white: #ffffff;
+            --light-blue: #74b9d3;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Open Sans', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            color: var(--primary-blue);
         }
 
         .container {
             background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             text-align: center;
-            max-width: 400px;
-            width: 100%;
+            max-width: 450px;
+            width: 90%;
+            border-top: 8px solid var(--accent-gold);
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 0;
+        }
+
+        .url-box {
+            background: #f0f4f8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            word-break: break-all;
+            font-size: 0.9rem;
+            border: 1px dashed var(--light-blue);
         }
 
         button {
-            background-color: #1a2b49;
+            background-color: var(--primary-blue);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: 800;
             width: 100%;
+            text-transform: uppercase;
+            transition: transform 0.2s, background 0.2s;
+            margin-bottom: 10px;
         }
 
         button:hover {
             background-color: #2c4a7c;
+            transform: translateY(-2px);
         }
 
         #qrcode {
-            margin-top: 20px;
+            margin: 25px 0;
             display: flex;
             justify-content: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .btn-download {
+            background-color: var(--accent-gold);
+            color: var(--primary-blue);
+        }
+
+        #qr-link {
+            text-decoration: none;
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 20px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -62,26 +100,48 @@
 
 <body>
     <div class="container">
-        <h2>Générateur de QR Code</h2>
-        <p>Colle l'adresse de ton site Netlify ici :</p>
-        <input type="text" id="urlInput" placeholder="https://mon-site.netlify.app">
-        <button onclick="generateQR()">Générer</button>
+        <h2>QR Code Cap'Icam</h2>
+        <p>Adresse actuelle :</p>
+        <div class="url-box" id="currentUrl">https://cap-icam.github.io/cap-icam-Rallyes/</div>
+
         <div id="qrcode"></div>
+
+        <button onclick="downloadQR()" class="btn-download">💾 Télécharger pour les affiches</button>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 15px;">Note : Si l'adresse a changé, modifie-la dans le
+            code du fichier.</p>
     </div>
 
+    <a href="https://cap-icam.github.io/cap-icam-Rallyes/" target="_blank" id="qr-link">Tester le lien en direct</a>
+
     <script>
-        function generateQR() {
-            const url = document.getElementById('urlInput').value;
-            const container = document.getElementById('qrcode');
-            container.innerHTML = ""; // Clear previous
-            if (url) {
-                new QRCode(container, {
-                    text: url,
-                    width: 200,
-                    height: 200
-                });
+        // Initial Generation
+        const myUrl = document.getElementById('currentUrl').textContent;
+        const qrcodeContainer = document.getElementById('qrcode');
+        const qrcode = new QRCode(qrcodeContainer, {
+            text: myUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#1a2b49",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function downloadQR() {
+            const img = qrcodeContainer.querySelector('img');
+            if (img) {
+                const link = document.createElement('a');
+                link.download = 'qrcode-capicam.png';
+                link.href = img.src;
+                link.click();
             } else {
-                alert("Entre une URL valide !");
+                // For browsers that use canvas
+                const canvas = qrcodeContainer.querySelector('canvas');
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.download = 'qrcode-capicam.png';
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                }
             }
         }
     </script>
