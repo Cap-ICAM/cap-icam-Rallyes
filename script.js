@@ -176,7 +176,16 @@ window.addEventListener('scroll', function () {
     const heroText = document.querySelector('.hero h1');
     const heroTagline = document.querySelector('.tagline');
 
-    if (heroLogo) heroLogo.style.transform = 'translateY(' + scrollPosition * 0.4 + 'px)';
-    if (heroText) heroText.style.transform = 'translateY(' + scrollPosition * 0.3 + 'px)';
-    if (heroTagline) heroTagline.style.transform = 'translateY(' + scrollPosition * 0.2 + 'px)';
+    if (heroLogo) {
+        heroLogo.style.transform = 'translateY(' + scrollPosition * 0.15 + 'px)';
+        heroLogo.style.opacity = 1 - (scrollPosition / 700);
+    }
+    if (heroText) {
+        heroText.style.transform = 'translateY(' + scrollPosition * 0.25 + 'px)';
+        heroText.style.opacity = 1 - (scrollPosition / 600);
+    }
+    if (heroTagline) {
+        heroTagline.style.transform = 'translateY(' + scrollPosition * 0.35 + 'px)';
+        heroTagline.style.opacity = 1 - (scrollPosition / 500);
+    }
 });
