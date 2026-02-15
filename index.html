@@ -256,6 +256,48 @@
     <audio id="audio-player" src="assets/musique.mp3" loop></audio>
     <button id="music-btn" title="Hymne Cap'Icam">🎵</button>
 
+    <!-- PWA Installation Prompt -->
+    <div id="pwa-overlay">
+        <div class="pwa-modal">
+            <button class="pwa-close" onclick="closePwaPrompt()">✕</button>
+            <img src="assets/logo.jpg" class="pwa-logo" alt="Logo Cap'Icam">
+            <div class="pwa-title">Installez l'App</div>
+            <div class="pwa-text">Ajoutez l'application sur votre écran d'accueil pour un accès rapide aux rallyes et
+                aux jeux.</div>
+            <div class="pwa-instruction">
+                <i class="fas fa-share-square share-icon"></i>
+                <span>Appuyez sur <b id="share-text">"Partager"</b> puis sur <b>"Sur l'écran d'accueil"</b></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function isIos() {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && (window.navigator.standalone);
+        }
+
+        function closePwaPrompt() {
+            document.getElementById('pwa-overlay').style.display = 'none';
+            // On s'en rappelle pour ne pas l'ennuyer à chaque clic
+            sessionStorage.setItem('pwa-prompt-closed', 'true');
+        }
+
+        window.addEventListener('load', () => {
+            // Uniquement si sur iOS et pas déjà "installé" et pas déjà fermé durant cette session
+            if (isIos() && !isInStandaloneMode() && !sessionStorage.getItem('pwa-prompt-closed')) {
+                // Petit délai pour ne pas agresser au chargement
+                setTimeout(() => {
+                    document.getElementById('pwa-overlay').style.display = 'flex';
+                }, 2000);
+            }
+        });
+    </script>
+
     <script src="script.js?v=3"></script>
 </body>
 

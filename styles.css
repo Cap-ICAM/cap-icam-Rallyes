@@ -8,6 +8,104 @@
     --white: #ffffff;
     --sand: #f4e8d3;
     --glass: rgba(255, 255, 255, 0.15);
+    --bg-overlay: rgba(10, 20, 35, 0.9);
+}
+
+/* PWA Install Overlay Styles */
+#pwa-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    display: none;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.pwa-modal {
+    background: var(--primary-blue);
+    width: 100%;
+    max-width: 350px;
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+    border: 2px solid var(--accent-gold);
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.pwa-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.pwa-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 2px solid var(--accent-gold);
+    background: white;
+}
+
+.pwa-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.pwa-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-bottom: 25px;
+}
+
+.pwa-instruction {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.share-icon {
+    font-size: 22px;
+    color: var(--accent-gold);
+}
+
+.pwa-instruction b {
+    color: var(--accent-gold);
 }
 
 * {
