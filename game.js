@@ -75,7 +75,7 @@ function startGame() {
 
     // Game Loops
     gameLoop = setInterval(updateGame, 20);
-    createObstacle(window.innerWidth * 0.7); // Create first obstacle already visible at 70% of screen
+    createObstacle(window.innerWidth * 0.85); // Premier obstacle à 85% de l'écran pour un compromis idéal au départ
     obstacleLoop = setInterval(createObstacle, 2000); // New obstacle every 2s
 }
 

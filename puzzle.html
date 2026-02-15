@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2048 Cap'Icam ⚓</title>
+    <link rel="stylesheet" href="puzzle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <a href="games.html" class="return-btn">⬅ Retour</a>
+
+        <div class="header">
+            <h1>2048 <span class="gold">Cap'Icam</span></h1>
+            <div class="scores-container">
+                <div class="score-box">
+                    <div class="label">SCORE</div>
+                    <div id="score">0</div>
+                </div>
+                <div class="score-box">
+                    <div class="label">MEILLEUR</div>
+                    <div id="best-score">0</div>
+                </div>
+            </div>
+        </div>
+
+        <p class="tagline">Fusionne les badges pour atteindre le grade ultime ! 🏆</p>
+
+        <div id="grid-container">
+            <!-- La grille sera générée ici -->
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+
+            <div id="tile-container"></div>
+        </div>
+
+        <div class="controls">
+            <button id="restart-btn" onclick="initGame()">NOUVELLE PARTIE</button>
+        </div>
+
+        <!-- Start Screen Overlay -->
+        <div id="start-screen">
+            <h2>Prêt pour l'abordage ?</h2>
+            <div class="reward-notice"
+                style="margin-bottom: 20px; font-size: 0.9rem; color: #c8b273; font-weight: 600;">
+                🏆 Une récompense pour les meilleurs stratèges !
+            </div>
+            <input type="text" id="playerName" placeholder="Ton Prénom NOM" maxlength="25">
+            <button onclick="startGame()">JOUER</button>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div id="game-over-screen" style="display: none;">
+            <h2 id="end-message">NAUFRAGE !</h2>
+            <p>Score Final : <span id="final-score">0</span></p>
+            <button onclick="initGame()">REESSAYER</button>
+            <br>
+            <a href="games.html"
+                style="color: #c8b273; text-decoration: none; margin-top: 15px; display: inline-block;">Quitter
+                l'arcade</a>
+        </div>
+    </div>
+
+    <script src="puzzle.js"></script>
+</body>
+
+</html>
