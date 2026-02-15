@@ -155,15 +155,14 @@ if (musicBtn && audioPlayer) {
     musicBtn.addEventListener('click', () => {
         if (audioPlayer.paused) {
             audioPlayer.play().then(() => {
-                musicBtn.textContent = '⏸️'; // Change icon to Pause
+                musicBtn.innerHTML = '<img src="assets/logo.jpg" class="music-logo" alt="Musique">';
                 musicBtn.classList.add('music-playing');
             }).catch(error => {
-                console.log("Lecture bloquée par le navigateur (autoplay policy) : " + error);
-                alert("Impossible de lancer la musique. Vérifie que le fichier est bien présent !");
+                console.log("Lecture bloquée : " + error);
             });
         } else {
             audioPlayer.pause();
-            musicBtn.textContent = '🎵'; // Change icon back to Music Note
+            musicBtn.innerHTML = '🎵';
             musicBtn.classList.remove('music-playing');
         }
     });

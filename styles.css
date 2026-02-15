@@ -759,42 +759,45 @@ body {
 #music-btn {
     position: fixed;
     bottom: 60px;
-    /* Just above the countdown bar */
     right: 20px;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: none;
-    background: var(--accent-gold);
-    color: var(--primary-blue);
-    font-size: 1.5rem;
+    border: 3px solid var(--accent-gold);
+    background: white;
+    padding: 0;
+    overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     z-index: 2000;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s, background 0.3s;
+    font-size: 1.8rem;
+    transition: transform 0.3s;
+}
+
+.music-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 #music-btn:hover {
     transform: scale(1.1);
-    background: var(--white);
 }
 
-.music-playing {
-    animation: spin 3s linear infinite;
-    background: var(--white) !important;
-    color: var(--accent-gold) !important;
-    border: 2px solid var(--accent-gold) !important;
+.music-playing .music-logo {
+    animation: spin 5s linear infinite;
 }
 
 @keyframes spin {
-    0% {
+    from {
         transform: rotate(0deg);
     }
 
-    100% {
+    to {
         transform: rotate(360deg);
     }
 }
