@@ -3,8 +3,9 @@ let score = 0;
 const rows = 4;
 const columns = 4;
 let gameActive = false;
+let hasWonSession = false; // To send win notice only once per game
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu82VkAcq3SeWYSEMj4g_-18EDcQGFvlPLFysaOYXiiAO2oszk_W9GR70ohCz4eMZCXw/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxY5RF8k4NtnI-Hm8ENm2Zn7v4H-Go3c-AvY3BkxzNZ9siGDJp_ILPJC4MxU181dO7p7w/exec';
 
 window.onload = function () {
     const storedName = localStorage.getItem('capIcamPlayerName');
@@ -30,6 +31,7 @@ function initGame() {
     grid = Array.from({ length: rows }, () => Array(columns).fill(null));
     score = 0;
     gameActive = true;
+    hasWonSession = false;
     document.getElementById('score').innerText = "0";
     document.getElementById('game-over-screen').style.display = 'none';
 
@@ -133,6 +135,15 @@ async function handleMove(direction) {
             for (let r = 0; r < 4; r++) {
                 for (let c = 0; c < 4; c++) {
                     if (grid[r][c]) {
+                        if (grid[r][c].val === 2048 && !hasWonSession) {
+                            hasWonSession = true;
+                            // Log Win to Google Sheet
+                            const name = localStorage.getItem('capIcamPlayerName');
+                            fetch(GOOGLE_SCRIPT_URL + `?action=addPuzzleWin&name=${encodeURIComponent(name)}`, {
+                                method: 'POST',
+                                mode: 'no-cors'
+                            });
+                        }
                         if (grid[r][c].merged) {
                             grid[r][c].merged = false;
                             grid[r][c].element.classList.add('tile-merged');
@@ -187,6 +198,16 @@ function checkGameOver() {
     }
     gameActive = false;
     document.getElementById('final-score').innerText = score;
+
+    // Punchlines de naufrage (les mêmes que FlappyCap)
+    const punchlines = [
+        "Sombré comme ta moyenne de maths...",
+        "Cap'Icam coule ? Jamais ! Toi par contre...",
+        "Même le Titanic a fait mieux.",
+        "Encore un qui a bu trop de canouche !"
+    ];
+    document.getElementById('end-punchline').innerText = punchlines[Math.floor(Math.random() * punchlines.length)];
+
     document.getElementById('game-over-screen').style.display = 'flex';
 
     const name = localStorage.getItem('capIcamPlayerName');

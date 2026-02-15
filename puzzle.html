@@ -14,6 +14,8 @@
     <div id="game-container">
         <a href="games.html" class="return-btn">⬅ Retour</a>
 
+        <img src="assets/logo.jpg" class="rotating-logo" alt="Logo Cap'Icam">
+
         <div class="header">
             <h1>2048 <span class="gold">Cap'Icam</span></h1>
             <div class="scores-container">
@@ -28,7 +30,7 @@
             </div>
         </div>
 
-        <p class="tagline">Fusionne les badges pour atteindre le grade ultime ! 🏆</p>
+        <p class="tagline">Va jusqu'à un bloc 2048 et viens récupérer ton lot au stand Cap'Icam 🎁</p>
 
         <div id="grid-container">
             <!-- La grille sera générée ici -->
@@ -71,6 +73,7 @@
         <div id="game-over-screen" style="display: none;">
             <h2 id="end-message">NAUFRAGE !</h2>
             <p>Score Final : <span id="final-score">0</span></p>
+            <p id="end-punchline" style="font-style: italic; color: #ccc; margin: 15px 0; font-size: 0.9rem;"></p>
             <button onclick="initGame()">REESSAYER</button>
             <br>
             <a href="games.html"
