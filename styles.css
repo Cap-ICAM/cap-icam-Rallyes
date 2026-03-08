@@ -558,6 +558,16 @@ h3,
     border-color: var(--accent-gold);
 }
 
+.team-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem auto;
+    border: 3px solid var(--accent-gold);
+    display: block;
+}
+
 .team-card h4 {
     color: var(--primary-blue);
     margin-bottom: 0.5rem;
@@ -588,6 +598,42 @@ h3,
     font-size: 1.3rem;
     border-bottom: 1px solid #ddd;
     padding-bottom: 0.5rem;
+}
+
+.pole-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 90px;
+}
+
+.member-photo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    border: 2px solid var(--light-blue);
+    transition: transform 0.3s;
+}
+
+.member:hover .member-photo {
+    transform: scale(1.1);
+    border-color: var(--accent-gold);
+}
+
+.member span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
 }
 
 .pole-group ul {

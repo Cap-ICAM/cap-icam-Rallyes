@@ -202,62 +202,73 @@ h1 {
 
 /* Couleurs des Tuiles Evolutives */
 .tile-2 {
-    background: #eee4da;
-    color: #776e65;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/captain-gus.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-4 {
-    background: #ede0c8;
-    color: #776e65;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/alcoolix.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-8 {
-    background: #f2b179;
-    color: #f9f6f2;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/guillmoule.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-16 {
-    background: #f59563;
-    color: #f9f6f2;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/gabordage.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-32 {
-    background: #f67c5f;
-    color: #f9f6f2;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/albatros.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-64 {
-    background: #f65e3b;
-    color: #f9f6f2;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/gaelland.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .tile-128 {
-    background: #edcf72;
-    font-size: 1.5rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/gastonneau.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 10px var(--accent-gold);
 }
 
 .tile-256 {
-    background: #edcc61;
-    font-size: 1.5rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/maxithon.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 15px var(--accent-gold);
 }
 
 .tile-512 {
-    background: #edc850;
-    font-size: 1.5rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/seraphouf.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 20px var(--accent-gold);
 }
 
 .tile-1024 {
-    background: #edc53f;
-    font-size: 1.2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/henriette.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 25px var(--accent-gold);
 }
 
 .tile-2048 {
-    background: #ffcc00;
-    font-size: 1.2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/team/zbeulix.jpg') center/cover;
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 35px #fff;
     animation: pulse-gold 1s infinite alternate;
 }
