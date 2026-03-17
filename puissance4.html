@@ -72,6 +72,34 @@
             box-shadow: 0 5px 15px rgba(200, 178, 115, 0.4);
         }
 
+        .difficulty-select {
+            background: rgba(26, 43, 73, 0.8);
+            color: #fff;
+            border: 2px solid var(--accent-gold);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23c8b273%22%20d%3D%22M10.293%203.293L6%207.586%201.707%203.293A1%201%200%2000.293%204.707l5%205a1%201%200%20001.414%200l5-5a1%201%200%2010-1.414-1.414z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        .difficulty-select:hover {
+            border-color: #fff;
+        }
+
+        .difficulty-select option {
+            background: var(--primary-blue);
+            color: #fff;
+        }
+
         .status {
             font-size: 1.2rem;
             font-weight: bold;
@@ -226,7 +254,7 @@
 
     <div class="header">
         <h1>Puissance 4</h1>
-        <p>Affrontez l'IA (Très Difficile)</p>
+        <p>Affrontez l'IA <span id="ia-name">Atlanticam</span></p>
     </div>
 
     <div class="status" id="status">À vous de jouer !</div>
@@ -234,6 +262,10 @@
     <div id="board"></div>
 
     <div class="controls">
+        <select id="difficulty" class="difficulty-select">
+            <option value="medium" selected>Difficulté : Medium</option>
+            <option value="hardcore">Difficulté : Hardcore (IA Actuelle)</option>
+        </select>
         <button id="restart-btn">Nouvelle Partie</button>
     </div>
 

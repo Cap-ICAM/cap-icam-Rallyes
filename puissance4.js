@@ -13,11 +13,18 @@ let isPlayerTurn = true;
 const boardElement = document.getElementById('board');
 const statusElement = document.getElementById('status');
 const restartBtn = document.getElementById('restart-btn');
+const difficultySelect = document.getElementById('difficulty');
+const iaNameSpan = document.getElementById('ia-name');
 
 function initBoard() {
     board = Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
     gameOver = false;
     isPlayerTurn = true;
+    
+    // Set initial IA name
+    const diff = difficultySelect.value;
+    iaNameSpan.innerText = diff === 'hardcore' ? "Atlanticam" : "Icamienne";
+
     statusElement.innerText = "À vous de jouer ! (Rouge)";
     statusElement.style.color = "white";
     renderBoard();
@@ -269,26 +276,45 @@ async function handleHumanMove(col) {
     }
 
     isPlayerTurn = false;
-    statusElement.innerText = "L'IA Atlanticam réfléchit (Attention, elle est très forte)...";
+    const diff = difficultySelect.value;
+    const iaName = diff === 'hardcore' ? "L'IA Atlanticam" : "L'IA Icamienne";
+    iaNameSpan.innerText = diff === 'hardcore' ? "Atlanticam" : "Icamienne";
+    
+    if (diff === 'hardcore') {
+        statusElement.innerText = `${iaName} réfléchit intensément...`;
+    } else {
+        statusElement.innerText = `${iaName} réfléchit...`;
+    }
     statusElement.style.color = "white";
 
     setTimeout(() => makeAIMove(), 500);
 }
 
 function makeAIMove() {
-    const DEPTH = 7; 
+    const diff = difficultySelect.value;
+    let DEPTH = diff === 'hardcore' ? 7 : 3; 
     
     let col;
     let validLocs = getValidLocations(board);
     
+    // Pour le mode medium, on ajoute une petite chance d'erreur
+    const isMedium = diff === 'medium';
+    const makeError = isMedium && Math.random() < 0.2; // 20% de chance de "petite erreur"
+
     const piecesCount = board.flat().filter(p => p !== EMPTY).length;
     
-    if (piecesCount === 1) {
+    if (piecesCount === 1 && !makeError) {
         if (isValidLocation(board, 3) && board[5][3] !== PLAYER) col = 3;
         else col = 2 + Math.floor(Math.random() * 3);
     } else {
-        const result = minimax(board, DEPTH, -Infinity, Infinity, true);
-        col = result.column;
+        if (makeError) {
+            // L'erreur consiste à regarder moins loin (profondeur 1)
+            const result = minimax(board, 1, -Infinity, Infinity, true);
+            col = result.column;
+        } else {
+            const result = minimax(board, DEPTH, -Infinity, Infinity, true);
+            col = result.column;
+        }
     }
 
     if (col === null || col === undefined || !isValidLocation(board, col)) {
@@ -299,11 +325,13 @@ function makeAIMove() {
     dropPiece(board, row, col, AI);
     renderBoard();
 
+    const iaName = diff === 'hardcore' ? "L'IA Atlanticam" : "L'IA Icamienne";
+
     if (winningMove(board, AI)) {
         gameOver = true;
-        statusElement.innerText = "L'IA Atlanticam a gagné ! Essaie encore.";
+        statusElement.innerText = `${iaName} a gagné ! Essaie encore.`;
         statusElement.style.color = "var(--p2-color)";
-        showLoseAnimation();
+        showLoseAnimation(diff);
         return;
     }
 
@@ -318,19 +346,22 @@ function makeAIMove() {
     statusElement.style.color = "white";
 }
 
-function showLoseAnimation() {
+function showLoseAnimation(diff) {
     const board = document.getElementById('board');
     board.classList.add('lose-shake');
     
+    const iaName = diff === 'hardcore' ? "L'IA Atlanticam" : "L'IA Icamienne";
+    const subText = diff === 'hardcore' ? "L'IA Atlanticam a triomphé ! Retenter l'impossible ?" : "L'IA Icamienne a été plus forte cette fois !";
+
     const overlay = document.createElement('div');
     overlay.id = 'lose-overlay';
     overlay.innerHTML = `
         <div class="lose-content">
             <h2 class="lose-title">OUPS...</h2>
-            <p>L'IA Atlanticam a triomphé !</p>
+            <p>${subText}</p>
             <div class="funny-face">🤡</div>
             <p>Cap'Icam compte sur toi pour la revanche !</p>
-            <button onclick="closeLoseOverlay()">Retenter l'impossible</button>
+            <button onclick="closeLoseOverlay()">Revanche !</button>
         </div>
     `;
     document.body.appendChild(overlay);
@@ -351,6 +382,12 @@ function closeLoseOverlay() {
 
 restartBtn.addEventListener('click', () => {
     closeLoseOverlay();
+    initBoard();
+});
+
+difficultySelect.addEventListener('change', () => {
+    const diff = difficultySelect.value;
+    iaNameSpan.innerText = diff === 'hardcore' ? "Atlanticam" : "Icamienne";
     initBoard();
 });
 
