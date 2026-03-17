@@ -318,7 +318,9 @@ function endGame(reason = "Concert fini !") {
 
     } else {
         titleElement.innerText = "NAUFRAGE ! 🐙";
-        statsElement.innerText = reason + " (Score: " + score + ")";
+        statsElement.innerHTML = `<span class="lose-reason">${reason}</span><br>Score: ${score}<br><br><div class="funny-face">🤡</div><br>L'IA Atlanticam se moque de toi... Venge-toi !`;
+        document.body.classList.add('lose-shake');
+        setTimeout(() => document.body.classList.remove('lose-shake'), 500);
     }
 
     gameOverScreen.style.display = 'flex';

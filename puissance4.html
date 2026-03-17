@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puissance 4 - Cap'Icam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a2b49;
+            --accent-gold: #c8b273;
+            --sky-blue: #74b9d3;
+            --board-blue: #2980b9;
+            --p1-color: #e74c3c; /* Red */
+            --p2-color: #f1c40f; /* Yellow */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, var(--primary-blue), #0a1526);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            margin-top: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+        }
+        
+        .header p {
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .controls {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(200, 178, 115, 0.4);
+        }
+
+        .status {
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #board {
+            background: var(--board-blue);
+            padding: 10px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(7, 60px);
+            grid-template-rows: repeat(6, 60px);
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: #1a2b49;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
+            transition: background 0.3s;
+        }
+
+        .cell.hover-p1 {
+            background-image: url('assets/logo.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+        }
+
+        .cell.p1 {
+            background-image: url('assets/logo.jpg');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            opacity: 1; /* Reset opacity from hover if any */
+        }
+
+        .cell.p2 {
+            background-image: url('assets/atlanticam_logo.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        .return-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .return-link:hover {
+            color: var(--accent-gold);
+        }
+
+        @media (max-width: 600px) {
+            #board {
+                grid-template-columns: repeat(7, 45px);
+                grid-template-rows: repeat(6, 45px);
+                gap: 5px;
+            }
+            .cell {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Loss Animation & Overlay */
+        #lose-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        #lose-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lose-content {
+            background: var(--primary-blue);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 3px solid var(--accent-gold);
+            text-align: center;
+            max-width: 400px;
+            transform: scale(0.5);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(200, 178, 115, 0.3);
+        }
+
+        #lose-overlay.show .lose-content {
+            transform: scale(1);
+        }
+
+        .lose-title {
+            color: var(--accent-gold);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .funny-face {
+            font-size: 5rem;
+            margin: 1.5rem 0;
+            animation: bounce 0.8s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .lose-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .lose-content button {
+            margin-top: 2rem;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Puissance 4</h1>
+        <p>Affrontez l'IA (Très Difficile)</p>
+    </div>
+
+    <div class="status" id="status">À vous de jouer !</div>
+
+    <div id="board"></div>
+
+    <div class="controls">
+        <button id="restart-btn">Nouvelle Partie</button>
+    </div>
+
+    <a href="games.html" class="return-link"><i class="fas fa-arrow-left"></i> Retour à l'Arcade</a>
+
+    <script src="puissance4.js"></script>
+</body>
+</html>

@@ -199,14 +199,17 @@ function checkGameOver() {
     gameActive = false;
     document.getElementById('final-score').innerText = score;
 
-    // Punchlines de naufrage (les mêmes que FlappyCap)
+    // Punchlines de naufrage
     const punchlines = [
-        "Sombré comme ta moyenne de maths...",
+        "L'IA Atlanticam se marre de ton échec !",
         "Cap'Icam coule ? Jamais ! Toi par contre...",
-        "Même le Titanic a fait mieux.",
+        "Atlanticam a pris le dessus... Revanche ?",
         "Encore un qui a bu trop de canouche !"
     ];
-    document.getElementById('end-punchline').innerText = punchlines[Math.floor(Math.random() * punchlines.length)];
+    document.getElementById('end-punchline').innerHTML = `<span class="lose-reason">${punchlines[Math.floor(Math.random() * punchlines.length)]}</span><br><br><div class="funny-face">🤡</div>`;
+
+    document.body.classList.add('lose-shake');
+    setTimeout(() => document.body.classList.remove('lose-shake'), 500);
 
     document.getElementById('game-over-screen').style.display = 'flex';
 
