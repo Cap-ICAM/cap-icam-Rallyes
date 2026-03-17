@@ -231,6 +231,13 @@ document.addEventListener('touchstart', e => {
     startY = e.touches[0].clientY;
 }, { passive: true });
 
+// Prevent default swipe behaviors (like swipe-to-go-back or pull-to-refresh)
+document.addEventListener('touchmove', e => {
+    if (gameActive) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
 document.addEventListener('touchend', e => {
     if (!gameActive) return;
     let diffX = e.changedTouches[0].clientX - startX;
