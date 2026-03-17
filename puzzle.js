@@ -211,7 +211,7 @@ function checkGameOver() {
     document.getElementById('game-over-screen').style.display = 'flex';
 
     const name = localStorage.getItem('capIcamPlayerName');
-    fetch(GOOGLE_SCRIPT_URL + `?action=addScore&name=${encodeURIComponent(name)}&score=${score}`, {
+    fetch(GOOGLE_SCRIPT_URL + `?action=addPuzzleScore&name=${encodeURIComponent(name)}&score=${score}`, {
         method: 'POST',
         mode: 'no-cors'
     });

@@ -22,7 +22,15 @@ function doPost(e) {
             return ContentService.createTextOutput("Succès Concert enregistré");
         }
 
-        // 3. 2048 CAP'ICAM (Victoire 2048)
+        // 3. 2048 CAP'ICAM (Scores classiques)
+        if (action == 'addPuzzleScore') {
+            var sheet = ss.getSheetByName("Scores2048");
+            if (!sheet) sheet = ss.insertSheet("Scores2048");
+            sheet.appendRow([params.name, Number(params.score), new Date()]);
+            return ContentService.createTextOutput("Score 2048 enregistré");
+        }
+
+        // 4. 2048 CAP'ICAM (Victoire 2048)
         if (action == 'addPuzzleWin') {
             var sheet = ss.getSheetByName("Gagnants2048");
             if (!sheet) sheet = ss.insertSheet("Gagnants2048");
