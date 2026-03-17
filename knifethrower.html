@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cap'Icam Knife Hit 🎯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/logo_zoomed.jpg">
+    <style>
+        :root {
+            --primary-blue: #1a2b49;
+            --accent-gold: #c8b273;
+            --bg-dark: #0f172a;
+            --danger: #ef4444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Open Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            touch-action: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            display: block;
+            touch-action: none;
+        }
+
+        .ui-panel {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .score-box {
+            background: rgba(26, 43, 73, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-gold);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .level-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .knife-count {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 8px;
+        }
+
+        .knife-icon {
+            width: 12px;
+            height: 35px;
+            background: white;
+            border-radius: 2px;
+            opacity: 0.3;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .knife-icon.active {
+            opacity: 1;
+            background: var(--accent-gold);
+            box-shadow: 0 0 10px var(--accent-gold);
+        }
+
+        .knife-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 10px;
+            background: #64748b;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .overlay h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent-gold), #b39a5b);
+            color: var(--primary-blue);
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(200, 178, 115, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(200, 178, 115, 0.6);
+        }
+
+        .return-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 0.8rem 1.5rem;
+            margin-top: 2rem;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .return-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        #game-over-screen {
+            display: none;
+        }
+        
+        #victory-screen {
+            display: none;
+        }
+
+        @keyframes pulse-gold {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .stage-indicator {
+            position: absolute;
+            top: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div class="ui-panel">
+            <div class="score-box">
+                <i class="fas fa-bullseye"></i> <span id="score-val">0</span>
+            </div>
+            <div class="level-box">
+                STAGE <span id="stage-val">1</span>
+            </div>
+        </div>
+
+        <div class="knife-count" id="knife-stack">
+            <!-- Dynamically filled -->
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="overlay">
+            <div style="width: 120px; height: 120px; background: white; border-radius: 50%; padding: 10px; margin-bottom: 2rem; box-shadow: 0 0 30px var(--accent-gold);">
+                <img src="assets/logo.jpg" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" alt="Cap'Icam">
+            </div>
+            <h1>KNIFE HIT</h1>
+            <h2 style="color: white; font-family: 'Montserrat'; margin-bottom: 2rem;">ÉDITION CAP'ICAM</h2>
+            <p>Lance les couteaux sur le logo tournant. <br><strong>Règle d'or :</strong> Ne touche jamais un autre couteau !</p>
+            <button onclick="startGame()">Commencer le Défi</button>
+            <a href="games.html" class="return-btn">Retour Arcade</a>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="overlay">
+            <h1 style="color: var(--danger);">ÉCHEC !</h1>
+            <div style="font-size: 3rem; margin-bottom: 1rem;" id="final-score-val">0</div>
+            <p>Ton couteau a percuté un autre ! Précision, timing, maîtrise... Recommence pour l'honneur de l'Icam.</p>
+            <button onclick="restartGame()">Réessayer</button>
+            <a href="games.html" class="return-btn">Quitter l'Arène</a>
+        </div>
+    </div>
+
+    <script src="knifethrower.js"></script>
+</body>
+</html>
