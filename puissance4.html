@@ -6,6 +6,7 @@
     <title>Puissance 4 - Cap'Icam</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/logo_zoomed.jpg">
     <style>
         :root {
             --primary-blue: #1a2b49;
@@ -129,6 +130,23 @@
             cursor: pointer;
             box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
             transition: background 0.3s;
+        }
+
+        .rotating-logo {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold);
+            margin-top: 1rem;
+            animation: rotate-slow 15s linear infinite;
+            box-shadow: 0 0 20px rgba(200, 178, 115, 0.4);
+            object-fit: cover;
+            background: white;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .cell.hover-p1 {
@@ -353,8 +371,10 @@
 </head>
 <body>
 
+    <img src="assets/logo.jpg" class="rotating-logo" alt="Logo Cap'Icam">
+
     <div class="header">
-        <h1>Puissance 4</h1>
+        <h1>Puissance 4 ⚓</h1>
         <p>Affrontez l'IA <span id="ia-name">Atlanticam</span></p>
     </div>
 

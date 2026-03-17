@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bataille Navale - Cap'Icam ⚓</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/logo_zoomed.jpg">
+    <style>
+        :root {
+            --primary-blue: #1a2b49;
+            --accent-gold: #c8b273;
+            --sky-blue: #74b9d3;
+            --deep-sea: #0a1526;
+            --hit-color: #ff4757;
+            --miss-color: #74b9d3;
+            --ship-color: #2f3542;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, var(--primary-blue), var(--deep-sea));
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .rotating-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold);
+            margin-bottom: 0.5rem;
+            animation: rotate-slow 15s linear infinite;
+            box-shadow: 0 0 20px rgba(200, 178, 115, 0.4);
+            object-fit: cover;
+            background: white;
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+        }
+
+        .status-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(200, 178, 115, 0.3);
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            width: fit-content;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        #status-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .grids-wrapper {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 35px);
+            grid-template-rows: repeat(10, 35px);
+            gap: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .cell {
+            width: 35px;
+            height: 35px;
+            background: rgba(26, 43, 73, 0.6);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .computer-grid .cell:hover:not(.hit):not(.miss) {
+            background: rgba(200, 178, 115, 0.4);
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .cell.ship {
+            background: var(--ship-color);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cell.hit {
+            background: var(--hit-color);
+            cursor: default;
+        }
+
+        .cell.hit::after {
+            content: "\f00d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .cell.miss {
+            background: var(--miss-color);
+            cursor: default;
+        }
+
+        .cell.miss::after {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .cell.sunk {
+            background: #2c3e50 !important;
+            animation: pulse-red 1s infinite alternate;
+        }
+
+        @keyframes pulse-red {
+            from { opacity: 1; }
+            to { opacity: 0.7; }
+        }
+
+        /* Mortar Strike Styles */
+        .mortar-btn {
+            background: #ff7f50 !important;
+            color: #fff !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mortar-btn .count {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .mortar-btn.active {
+            box-shadow: 0 0 20px #ff7f50;
+            animation: pulse-orange 1s infinite alternate;
+        }
+
+        @keyframes pulse-orange {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .computer-grid.mortar-mode .cell:not(.hit):not(.miss):hover {
+            outline: 2px solid #ff7f50;
+            background: rgba(255, 127, 80, 0.3);
+            box-shadow: 0 0 15px #ff7f50;
+        }
+
+        .mortar-animation {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border: 3px solid #ff7f50;
+            border-radius: 50%;
+            background: rgba(255, 127, 80, 0.2);
+            animation: mortar-implode 0.6s ease-in forwards;
+            pointer-events: none;
+            z-index: 20;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes mortar-implode {
+            0% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+        }
+
+        /* Explosion effect */
+        .explosion {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ff9f43, #ff4757, transparent);
+            border-radius: 50%;
+            animation: explode 0.5s ease-out forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(200, 178, 115, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .return-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem 0;
+            transition: color 0.3s;
+        }
+
+        .return-link:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Ship List Panel */
+        .ship-list-panel {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            width: 250px;
+            text-align: left;
+        }
+
+        .ship-list-panel h3 {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+        }
+
+        .ship-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .ship-item.sunk {
+            text-decoration: line-through;
+            color: #ff4757;
+            opacity: 0.5;
+        }
+
+        .ship-indicators {
+            display: flex;
+            gap: 3px;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+
+        .indicator.filled {
+            background: var(--accent-gold);
+            opacity: 1;
+        }
+
+        .indicator.hit {
+            background: var(--hit-color);
+            opacity: 1;
+        }
+
+        /* Overlay Styles (shared with other games) */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 21, 38, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overlay-content {
+            background: var(--primary-blue);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 3px solid var(--accent-gold);
+            text-align: center;
+            max-width: 450px;
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(200, 178, 115, 0.3);
+        }
+
+        .overlay.show .overlay-content {
+            transform: scale(1);
+        }
+
+        @media (max-width: 768px) {
+            .grids-wrapper {
+                gap: 1.5rem;
+            }
+            .grid {
+                grid-template-columns: repeat(10, 28px);
+                grid-template-rows: repeat(10, 28px);
+            }
+            .cell {
+                width: 28px;
+                height: 28px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <img src="assets/logo.jpg" class="rotating-logo" alt="Logo Cap'Icam">
+        <h1>Bataille Navale ⚓</h1>
+
+        <div class="status-panel">
+            <p id="status-text">Préparez votre flotte ! Abordez les navires ennemis.</p>
+        </div>
+
+        <div class="grids-wrapper">
+            <div class="grid-container">
+                <span class="grid-title">Votre Flotte</span>
+                <div id="player-grid" class="grid player-grid"></div>
+                <div class="ship-list-panel">
+                    <h3>Vos Navires</h3>
+                    <div id="player-ship-list"></div>
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <span class="grid-title">Océan Ennemi</span>
+                <div id="computer-grid" class="grid computer-grid"></div>
+                <div class="ship-list-panel">
+                    <h3>Flotte Ennemie</h3>
+                    <div id="computer-ship-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="start-btn"><i class="fas fa-play"></i> Lancer la Bataille</button>
+            <button id="mortar-btn" class="mortar-btn" style="display: none;">
+                <i class="fas fa-bomb"></i> Frappe de Mortier <span class="count" id="mortar-count">2</span>
+            </button>
+            <button id="reset-btn" style="display: none;"><i class="fas fa-redo"></i> Nouvelle Partie</button>
+        </div>
+
+        <a href="games.html" class="return-link"><i class="fas fa-arrow-left"></i> Retour à l'Arcade</a>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="win-overlay" class="overlay">
+        <div class="overlay-content">
+            <h2 style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1rem;">VICTOIRE !</h2>
+            <p>La flotte ennemie gît au fond de l'océan.</p>
+            <div style="font-size: 5rem; margin: 1rem 0;">🏆</div>
+            <p>Cap'tain, vous avez sauvé le Cap'Icam !</p>
+            <button onclick="location.reload()">Rejouer</button>
+        </div>
+    </div>
+
+    <!-- Lose Overlay -->
+    <div id="lose-overlay" class="overlay">
+        <div class="overlay-content" style="background: #1a2b49;">
+            <h2 style="font-size: 3rem; color: #ff4757; margin-bottom: 1rem;">NAUFRAGE</h2>
+            <p>Votre flotte a été décimée...</p>
+            <div style="font-size: 5rem; margin: 1rem 0;">🐙</div>
+            <p>Le Kraken a eu raison de vous. Revanche ?</p>
+            <button onclick="location.reload()">Réparer et Repartir</button>
+        </div>
+    </div>
+
+    <script src="bataille_navale.js"></script>
+</body>
+</html>
