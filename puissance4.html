@@ -166,14 +166,30 @@
         }
 
         @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
             #board {
-                grid-template-columns: repeat(7, 45px);
-                grid-template-rows: repeat(6, 45px);
+                grid-template-columns: repeat(7, 40px);
+                grid-template-rows: repeat(6, 40px);
                 gap: 5px;
+                padding: 8px;
             }
             .cell {
-                width: 45px;
-                height: 45px;
+                width: 40px;
+                height: 40px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+                width: 90%;
+            }
+            button, .difficulty-select {
+                width: 100%;
+                max-width: 280px;
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
             }
         }
 
@@ -247,6 +263,91 @@
         .lose-content button {
             margin-top: 2rem;
             width: 100%;
+        }
+
+        /* Win Animation & Overlay */
+        #win-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 43, 73, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #win-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .win-content {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 20px;
+            border: 4px solid var(--accent-gold);
+            text-align: center;
+            max-width: 450px;
+            transform: scale(0.5) rotate(-10deg);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(200, 178, 115, 0.6);
+            color: var(--primary-blue);
+            position: relative;
+            z-index: 10;
+        }
+
+        #win-overlay.show .win-content {
+            transform: scale(1) rotate(0deg);
+        }
+
+        .win-title {
+            color: var(--primary-blue);
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        .win-icon {
+            font-size: 5rem;
+            margin: 1rem 0;
+            animation: celebrate 0.5s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes celebrate {
+            from { transform: scale(1) rotate(-10deg); }
+            to { transform: scale(1.2) rotate(10deg); }
+        }
+
+        .win-content button {
+            margin-top: 2rem;
+            width: 100%;
+            background: var(--primary-blue);
+            color: #fff;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-gold);
+            top: -10px;
+            border-radius: 2px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
         }
     </style>
 </head>

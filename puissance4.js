@@ -266,6 +266,7 @@ async function handleHumanMove(col) {
         gameOver = true;
         statusElement.innerText = "Wow ! Vous avez gagné !";
         statusElement.style.color = "var(--p1-color)";
+        showWinAnimation();
         return;
     }
 
@@ -377,11 +378,54 @@ function closeLoseOverlay() {
         overlay.classList.remove('show');
         setTimeout(() => overlay.remove(), 500);
     }
+}
+
+function showWinAnimation() {
+    const overlay = document.createElement('div');
+    overlay.id = 'win-overlay';
+    overlay.innerHTML = `
+        <div class="win-content">
+            <h2 class="win-title">VICTOIRE !</h2>
+            <p>Tu as battu l'IA ! Félicitations !</p>
+            <div class="win-icon">🏆</div>
+            <p>Tu es l'élite de Cap'Icam !</p>
+            <button onclick="closeWinOverlay()">Continuer à briller</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    
+    // Create confetti
+    for (let i = 0; i < 100; i++) {
+        createConfetti(overlay);
+    }
+    
+    setTimeout(() => {
+        overlay.classList.add('show');
+    }, 100);
+}
+
+function createConfetti(parent) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    confetti.style.opacity = Math.random();
+    confetti.style.backgroundColor = ['#c8b273', '#e74c3c', '#f1c40f', '#fff'][Math.floor(Math.random() * 4)];
+    parent.appendChild(confetti);
+}
+
+function closeWinOverlay() {
+    const overlay = document.getElementById('win-overlay');
+    if (overlay) {
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 500);
+    }
     initBoard();
 }
 
 restartBtn.addEventListener('click', () => {
     closeLoseOverlay();
+    closeWinOverlay();
     initBoard();
 });
 
