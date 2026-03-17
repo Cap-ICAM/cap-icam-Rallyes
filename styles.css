@@ -535,6 +535,17 @@ h3,
     padding-bottom: 0.5rem;
 }
 
+.main-team-photo {
+    transition: transform 0.3s ease, z-index 0s;
+    position: relative;
+    z-index: 1;
+}
+
+.main-team-photo:hover {
+    transform: scale(1.15);
+    z-index: 100;
+}
+
 .team-grid {
     display: flex;
     justify-content: center;
@@ -566,6 +577,15 @@ h3,
     margin: 0 auto 1rem auto;
     border: 3px solid var(--accent-gold);
     display: block;
+    transition: transform 0.3s ease, z-index 0s;
+    position: relative;
+    z-index: 1;
+}
+
+.team-photo:hover {
+    transform: scale(1.8);
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .team-card h4 {
@@ -622,12 +642,19 @@ h3,
     object-fit: cover;
     margin-bottom: 0.5rem;
     border: 2px solid var(--light-blue);
-    transition: transform 0.3s;
+    transition: transform 0.3s ease, z-index 0s;
+    position: relative;
+    z-index: 1;
 }
 
 .member:hover .member-photo {
-    transform: scale(1.1);
     border-color: var(--accent-gold);
+}
+
+.member-photo:hover {
+    transform: scale(2.5);
+    z-index: 100;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
 .member span {
