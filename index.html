@@ -33,7 +33,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#home">Accueil</a></li>
-            <li><a href="#rallyes">Les Rallyes</a></li>
+            <li><a href="#farewell">Remerciements</a></li>
             <li><a href="#team">L'Équipage</a></li>
 
             <li><a href="games.html" target="_blank" style="color: var(--accent-gold);"><i class="fas fa-gamepad"></i>
@@ -46,9 +46,9 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <img src="assets/logo.jpg" alt="Logo Cap'Icam Giant" class="hero-logo">
-            <h1>Hissez les Voiles !</h1>
-            <p class="tagline">La Campagne BDA qui t'emmène au large.</p>
-            <a href="#rallyes" class="btn-primary">Commander un Rallye</a>
+            <h1>Merci pour cette Traversée !</h1>
+            <p class="tagline">Une semaine inoubliable avec vous.</p>
+            <a href="games.html" class="btn-primary">Découvrir les Jeux Arcade</a>
         </div>
         <div class="wave-container">
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -67,79 +67,60 @@
         </div>
     </header>
 
-    <!-- Concept Section -->
-    <section class="concept-section">
+    <!-- Farewell Section -->
+    <section id="farewell" class="farewell-section">
+        <i class="fas fa-anchor farewell-decor decor-anchor"></i>
+        <i class="fas fa-ship farewell-decor decor-ship"></i>
         <div class="container">
-            <h2>L'Esprit Cap'Icam</h2>
-            <p>Embarque avec nous pour 3 jours intenses. Notre équipe de marins est prête à relever tous les défis
-                pour
-                te convaincre.</p>
+            <div class="farewell-container">
+                <h2 class="farewell-heading">Le Mot de la Fin</h2>
+                <div class="farewell-text">
+                    Hello Hello,
+
+                    Après une semaine de campagne riche en rencontres, en énergie et en souvenirs, il est temps pour nous de jeter l’ancre quelques instants pour vous adresser un immense merci.
+
+                    Cette traversée n’aurait jamais eu la même saveur sans chacun d’entre vous — listeux comme non-listeux. Toute la promo s’est retrouvée portée par une ambiance incroyable, faite de bonne humeur, de respect et d’un véritable esprit d’équipage. Voir toutes les listes du BDA naviguer dans la même direction, avec autant de fair-play et de complicité, a rendu cette semaine encore plus belle.
+
+                    Au fil de nos messages, de nos animations et de nos échanges, nous avons essayé de vous embarquer avec nous dans notre univers marin, mais surtout dans une aventure collective qui reflète ce qui fait la force de l’Icam : la cohésion, l’entraide et le plaisir d’avancer ensemble !!
+
+                    Quelle que soit la suite, cette semaine restera une belle preuve que, lorsque toute une promo rame dans le même sens, le voyage devient inoubliable.
+
+                    On range doucement les voiles, mais l’esprit d’équipage, lui, continue.
+                </div>
+                
+                <div style="margin: 2rem 0; text-align: center;">
+                    <img src="assets/team/equipe.jpg" alt="La Team Cap'Icam" style="max-width: 100%; border-radius: 15px; border: 3px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                </div>
+
+                <div class="farewell-signature">
+                    À très vite sur le pont,<br>
+                    La team Cap’Icam
+                </div>
+            </div>
         </div>
     </section>
-
-    <!-- Rallyes Section -->
-    <section id="rallyes" class="rallyes-section">
+    
+    <section id="arcade-preview" class="arcade-preview-section">
         <div class="container">
-            <h2>Nos Rallyes</h2>
-            <p class="section-subtitle">Tu commandes, on débarque.</p>
-
-            <div class="rallye-grid">
-                <!-- Rallye 1: P'tit Dej (Keep) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-coffee"></i></div>
-                    <h3>P'tit Dej du Capitaine</h3>
-                    <p>Crêpe, croque-monsieur, café. Le réveil idéal avant les cours.</p>
-                    <button class="btn-rallye" onclick="openModal('P\'tit Dej du Capitaine')">Commander</button>
-                </div>
-
-                <!-- Rallye 2: Goûter (Keep) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-hamburger"></i></div>
-                    <h3>Goûter du Mousse</h3>
-                    <p>Une petite faim ? On t'apporte un en-cas directement !</p>
-                    <button class="btn-rallye" onclick="openModal('Goûter du Mousse')">Commander</button>
-                </div>
-
-                <!-- Rallye 3: Réveil (New) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-bell"></i></div>
-                    <h3>Réveil du Matelot</h3>
-                    <p>Debout là-dedans ! On vient te sortir du lit pour ne pas rater le départ.</p>
-                    <button class="btn-rallye" onclick="openModal('Réveil du Matelot')">Commander</button>
-                </div>
-
-                <!-- Rallye 4: Devoirs (New) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-compass"></i></div>
-                    <h3>L'École de Navigation</h3>
-                    <p>Perdu dans tes calculs ? Nos officiers t'aident à retrouver le cap.</p>
-                    <button class="btn-rallye" onclick="openModal('L\'École de Navigation')">Commander</button>
-                </div>
-
-                <!-- Rallye 5: Voiture (New) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-ship"></i></div>
-                    <h3>Navette du Port</h3>
-                    <p>Besoin d'une escorte ? Monte à bord de notre canot pour un trajet express.</p>
-                    <button class="btn-rallye" onclick="openModal('Navette du Port')">Commander</button>
-                </div>
-
-                <!-- Rallye 6: Coiffeur (New) -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-cut"></i></div>
-                    <h3>La Coupe du Corsaire</h3>
-                    <p>Besoin d'un rafraîchissement capillaire ? Notre barbier débarque avec sa tondeuse !</p>
-                    <button class="btn-rallye" onclick="openModal('La Coupe du Corsaire')">Commander</button>
-                </div>
-
-                <!-- Rallye 7: Massage -->
-                <div class="rallye-card">
-                    <div class="card-icon"><i class="fas fa-spa"></i></div>
-                    <h3>Massage à la MI</h3>
-                    <p>Besoin de se détendre ? On vient directement dans ta chambre (à la MI) pour te faire un massage !
-                    </p>
-                    <button class="btn-rallye" onclick="openModal('Massage à la MI')">Commander</button>
-                </div>
+            <h2 class="section-heading">L'Arcade Cap'Icam</h2>
+            <p class="section-subtitle">Détendez-vous avec nos jeux exclusifs en attendant les résultats !</p>
+            <div class="arcade-grid">
+                <a href="semanticam.html" class="arcade-item">
+                    <i class="fas fa-temperature-high"></i>
+                    <span>Sémanticam</span>
+                </a>
+                <a href="bataille_navale.html" class="arcade-item">
+                    <i class="fas fa-ship"></i>
+                    <span>Bataille Navale</span>
+                </a>
+                <a href="rythme.html" class="arcade-item">
+                    <i class="fas fa-music"></i>
+                    <span>Symphonie</span>
+                </a>
+                <a href="games.html" class="arcade-item more-games">
+                    <i class="fas fa-plus"></i>
+                    <span>Tous les Jeux</span>
+                </a>
             </div>
         </div>
     </section>
@@ -254,32 +235,7 @@
         </div>
     </section>
 
-    <!-- Modal Order Form -->
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3>Commander : <span id="rallyeName"></span></h3>
-            <form id="rallyeForm">
-                <div class="form-group">
-                    <label for="name">Ton Nom / Surnom</label>
-                    <input type="text" id="name" required placeholder="Capitaine Crochet">
-                </div>
-                <div class="form-group">
-                    <label for="location">Ta Position (Lieu)</label>
-                    <input type="text" id="location" required placeholder="Foyer, Salle B12...">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Tel (optionnel)</label>
-                    <input type="tel" id="phone" placeholder="06...">
-                </div>
-                <div class="form-group">
-                    <label for="notes">Précisions / Envies</label>
-                    <textarea id="notes" rows="3" placeholder="Ex: Sans gluten, musique rock, etc."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Valider la Commande</button>
-            </form>
-        </div>
-    </div>
+    <!-- Modal Order Form (Removed) -->
 
     <!-- Footer -->
     <footer id="contact">

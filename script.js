@@ -45,67 +45,7 @@ const navSlide = () => {
     });
 }
 
-// --- Order System Logic ---
-
-function openModal(rallyeName) {
-    const modal = document.getElementById('orderModal');
-    const rallyeTitleSpan = document.getElementById('rallyeName');
-    rallyeTitleSpan.textContent = rallyeName;
-    modal.style.display = 'flex';
-}
-
-function closeModal() {
-    const modal = document.getElementById('orderModal');
-    if (modal) modal.style.display = 'none';
-}
-
-window.onclick = function (event) {
-    const modal = document.getElementById('orderModal');
-    if (event.target == modal) {
-        closeModal();
-    }
-}
-
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxY5RF8k4NtnI-Hm8ENm2Zn7v4H-Go3c-AvY3BkxzNZ9siGDJp_ILPJC4MxU181dO7p7w/exec';
-
-const rallyeForm = document.getElementById('rallyeForm');
-if (rallyeForm) {
-    rallyeForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const btn = document.querySelector('.btn-submit');
-        const originalText = btn.textContent;
-        btn.textContent = 'Envoi en cours... 🌊';
-        btn.disabled = true;
-
-        const formData = {
-            rallye: document.getElementById('rallyeName').textContent,
-            name: document.getElementById('name').value,
-            location: document.getElementById('location').value,
-            phone: document.getElementById('phone').value,
-            notes: document.getElementById('notes').value
-        };
-
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-            .then(() => {
-                alert('⚓ Commande envoyée au QG ! Nos marins arrivent !');
-                closeModal();
-                e.target.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Oups, une erreur est survenue. Vérifie ta connexion.');
-            })
-            .finally(() => {
-                btn.textContent = originalText;
-                btn.disabled = false;
-            });
-    });
-}
+// --- Order System Logic (Retired) ---
 
 // Initialize Everything
 navSlide();

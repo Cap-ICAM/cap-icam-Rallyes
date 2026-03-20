@@ -365,157 +365,189 @@ h3,
     background-color: var(--white);
 }
 
-/* Rallyes Section */
-.rallyes-section {
-    padding: 4rem 2rem;
-    background: linear-gradient(to bottom, #f0f8ff, #dbe9f6);
-    scroll-margin-top: 120px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.rallyes-section h2,
-.concept-section h2 {
-    font-size: 2.5rem;
-    color: var(--primary-blue);
-    margin-bottom: 0.5rem;
-}
-
-.section-subtitle {
-    margin-bottom: 3rem;
-    color: #666;
-}
-
-.rallye-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-}
-
-.rallye-card {
-    background: var(--white);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-    border-top: 5px solid var(--accent-gold);
-}
-
-.rallye-card:hover {
-    transform: translateY(-10px);
-}
-
-.card-icon {
-    font-size: 3rem;
-    color: var(--light-blue);
-    margin-bottom: 1rem;
-}
-
-.rallye-card h3 {
-    margin-bottom: 1rem;
-    color: var(--primary-blue);
-}
-
-.rallye-card p {
-    color: #555;
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-}
-
-.btn-rallye {
-    background: transparent;
-    border: 2px solid var(--primary-blue);
-    color: var(--primary-blue);
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
 .btn-rallye:hover {
     background: var(--primary-blue);
     color: var(--white);
 }
 
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: var(--white);
-    padding: 2.5rem;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
+/* Farewell Section */
+.farewell-section {
+    padding: 8rem 2rem;
+    background: linear-gradient(180deg, var(--white) 0%, #f0f8ff 100%);
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 2px solid var(--accent-gold);
+    overflow: hidden;
 }
 
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.close-btn:hover {
-    color: var(--primary-blue);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
+.farewell-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    border: 3px solid var(--accent-gold);
+    border-radius: 30px;
+    padding: 4rem 3rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 5;
     text-align: left;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+.farewell-container::before {
+    content: '\f13d';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--white);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
+.farewell-text {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--primary-blue);
+    white-space: pre-line;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.btn-submit {
-    width: 100%;
+.farewell-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 2.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.farewell-signature {
+    margin-top: 3rem;
+    text-align: right;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-style: italic;
+}
+
+.farewell-decor {
+    position: absolute;
+    opacity: 0.1;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.decor-anchor {
+    bottom: -50px;
+    right: -30px;
+    font-size: 25rem;
+    color: var(--primary-blue);
+    transform: rotate(-15deg);
+}
+
+.decor-ship {
+    top: -50px;
+    left: -30px;
+    font-size: 20rem;
+    color: var(--primary-blue);
+    transform: rotate(10deg);
+}
+
+@media (max-width: 768px) {
+    .farewell-container {
+        padding: 3rem 1.5rem;
+    }
+    .farewell-text {
+        font-size: 1.1rem;
+    }
+    .farewell-heading {
+        font-size: 1.8rem;
+    }
+}
+
+/* Arcade Preview Section */
+.arcade-preview-section {
+    padding: 6rem 2rem;
     background: var(--primary-blue);
     color: var(--white);
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s;
+    text-align: center;
 }
 
-.btn-submit:hover {
-    background: #253b60;
+.arcade-preview-section .section-heading {
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
 }
+
+.arcade-preview-section .section-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+}
+
+.arcade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.arcade-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--accent-gold);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-decoration: none;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.arcade-item i {
+    font-size: 3rem;
+    color: var(--accent-gold);
+}
+
+.arcade-item span {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.arcade-item:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(200, 178, 115, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.more-games {
+    background: var(--accent-gold);
+    color: var(--primary-blue);
+}
+
+.more-games i, .more-games span {
+    color: var(--primary-blue);
+}
+
+.more-games:hover {
+    background: var(--white);
+}
+
+/* Modal (Removed as not needed anymore) */
 
 /* Team Section */
 .team-section {
